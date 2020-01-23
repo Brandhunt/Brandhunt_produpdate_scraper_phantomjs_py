@@ -7,10 +7,12 @@
 
 # --- IMPORT SECTION --- #
 
+import os
+os.environ['SCRAPERWIKI_DATABASE_NAME'] = 'sqlite:///data.sqlite'
+
 import scraperwiki
 from lxml import etree
 import lxml.html
-import os
 import requests
 import json
 import base64
