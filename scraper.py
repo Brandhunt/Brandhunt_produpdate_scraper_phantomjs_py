@@ -236,7 +236,7 @@ while jsonprods:
                             try:
                                 browser.visit(product['url'])
                                 time.sleep(2)
-                                html_source = browser.page_source
+                                html_source = browser.html
                                 browser.quit()
                                 #browser.get(product['url'])
                                 #print("HTML:")
