@@ -386,8 +386,8 @@ while jsonprods:
                                 if prodlog_image_elements:
                                     for i in range(len(prodlog_image_elements)):
                                         #print('HUPP: ' + prodlog_image_elements[i])
-                                        #prodlog_image_elements[i] = prodlog_image_elements[i].html
-                                        prodlog_image_elements[i] = prodlog_image_elements[i]._element.get_attribute('outerHTML')
+                                        prodlog_image_elements[i] = etree.tostring(prodlog_image_elements[i])
+                                        #prodlog_image_elements[i] = prodlog_image_elements[i]._element.get_attribute('outerHTML')
                                     image_dom = ','.join(prodlog_image_elements)
                                     #print('IMAGEDOM: ' + image_dom)
                                     prodlog_image_urls = graburls(image_dom, True)
@@ -429,8 +429,8 @@ while jsonprods:
                                 image_elements = root.cssselect(website['imageselector'])
                                 if image_elements:
                                     for i in range(len(image_elements)):
-                                        #image_elements[i] = image_elements[i].html
-                                        image_elements[i] = image_elements[i]._element.get_attribute('outerHTML')
+                                        image_elements[i] = str(etree.tostring(image_elements[i]))
+                                        #image_elements[i] = image_elements[i]._element.get_attribute('outerHTML')
                                     image_dom = ','.join(image_elements)
                                     #print('IMAGE DOM: ' + image_dom)
                                     image_urls = graburls(image_dom, True)
@@ -723,7 +723,8 @@ while jsonprods:
                                         #productmisc_array[i] = etree.tostring(productmisc_array[i][0])
                                         #selected = browser.find_by_css(prodmisc_backup.strip().encode().decode("unicode-escape"))
                                         selected = root.cssselect(prodmisc_backup.strip().encode().decode("unicode-escape"))
-                                        productmisc_array[i] = selected[0].html
+                                        #productmisc_array[i] = selected[0].html
+                                        productmisc_array[i] = etree.tostring(selected[0])
                                         # --- Get sex attributes from current scrape --- #
                                         if productmisc_array[(i-1)] == 'pa_sex_html':
                                             sexies = jsonprodattr['pa_sex']
@@ -823,7 +824,8 @@ while jsonprods:
                                             if len(selector_one_string_two) > 1:
                                                 #soldoutselect = browser.find_by_css(selector_one_string_two[0].strip().encode().decode("unicode-escape"))
                                                 soldoutselect = root.cssselect(str(selector_one_string_two[0]).strip().encode().decode("unicode-escape"))
-                                                productmisc_array[i] = soldoutselect[0].html
+                                                #productmisc_array[i] = soldoutselect[0].html
+                                                productmisc_array[i] = str(etree.tostring(soldoutselect[0]))
                                                 if productmisc_array[i].find(selector_one_string_two[1]) != -1:
                                                     soldouthtmlupdatemeta = True
                                                     price = '0.0 BUCKS'
