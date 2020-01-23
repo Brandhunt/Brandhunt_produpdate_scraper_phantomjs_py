@@ -386,7 +386,7 @@ while jsonprods:
                                 if prodlog_image_elements:
                                     for i in range(len(prodlog_image_elements)):
                                         #print('HUPP: ' + prodlog_image_elements[i])
-                                        prodlog_image_elements[i] = etree.tostring(prodlog_image_elements[i])
+                                        prodlog_image_elements[i] = str(etree.tostring(prodlog_image_elements[i]))
                                         #prodlog_image_elements[i] = prodlog_image_elements[i]._element.get_attribute('outerHTML')
                                     image_dom = ','.join(prodlog_image_elements)
                                     #print('IMAGEDOM: ' + image_dom)
@@ -724,7 +724,7 @@ while jsonprods:
                                         #selected = browser.find_by_css(prodmisc_backup.strip().encode().decode("unicode-escape"))
                                         selected = root.cssselect(prodmisc_backup.strip().encode().decode("unicode-escape"))
                                         #productmisc_array[i] = selected[0].html
-                                        productmisc_array[i] = etree.tostring(selected[0])
+                                        productmisc_array[i] = str(etree.tostring(selected[0]))
                                         # --- Get sex attributes from current scrape --- #
                                         if productmisc_array[(i-1)] == 'pa_sex_html':
                                             sexies = jsonprodattr['pa_sex']
