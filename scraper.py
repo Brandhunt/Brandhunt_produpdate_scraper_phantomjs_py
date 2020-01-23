@@ -210,14 +210,14 @@ while jsonprods:
                         #browser = webdriver.Chrome(executable_path='/usr/local/bin/chromedriver', chrome_options=chrome_options)
                         #with Browser('chrome', headless=True, options=chrome_options) as browser:
                         optionals = Options()
-                        optionals.add_argument('--no-proxy-server')
-                        optionals.add_argument("--proxy-server='direct://'")
-                        optionals.add_argument("--proxy-bypass-list=*")
-                        optionals.add_argument('--disable-dev-shm-usage')
+                        #optionals.add_argument('--no-proxy-server')
+                        #optionals.add_argument("--proxy-server='direct://'")
+                        #optionals.add_argument("--proxy-bypass-list=*")
+                        #optionals.add_argument('--disable-dev-shm-usage')
                         optionals.add_argument('--disable-extensions')
                         optionals.add_argument('--no-sandbox')
-                        optionals.add_argument('--disable-gpu')
-                        optionals.add_argument('--ignore-certificate-errors')
+                        #optionals.add_argument('--disable-gpu')
+                        #optionals.add_argument('--ignore-certificate-errors')
                         html_source = ''
                         root = ''
                         with Browser('chrome', headless=True, options=optionals) as browser:
