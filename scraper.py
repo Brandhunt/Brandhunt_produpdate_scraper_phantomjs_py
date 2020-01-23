@@ -731,7 +731,7 @@ while jsonprods:
                                             sexies_result = []
                                             for sexterm in sexies:
                                                 term_name = sexterm['name']
-                                                sex_html = productmisc_array[i]
+                                                sex_html = str(productmisc_array[i])
                                                 if sex_html.upper().find(term_name.upper()) != -1:
                                                     term = doesprodattrexist(jsonprodattr['pa_sex'], sexterm['term_id'], 'pa_sex')
                                                     if term:
@@ -743,7 +743,7 @@ while jsonprods:
                                             sizies_result = []
                                             for sizeterm in sizies:
                                                 term_name = sizeterm['name']
-                                                size_html = productmisc_array[i]
+                                                size_html = str(productmisc_array[i])
                                                 output = re.search(r'\(.*Only.*\)|\(.*Out.*\)|\(.*In.*\)|\(.*Lager.*\)', size_html, flags=re.IGNORECASE)
                                                 output2 = re.search(r'.*Bevaka.*', size_html, flags=re.IGNORECASE)
                                                 output3 = re.search(r'.*Stock.*', size_html, flags=re.IGNORECASE)
@@ -771,7 +771,7 @@ while jsonprods:
                                             brandies_result = []
                                             for brandterm in brandies:
                                                 term_name = brandterm['name']
-                                                brand_html = productmisc_array[i]
+                                                brand_html = str(productmisc_array[i])
                                                 if brand_html.upper().find(term_name.upper()) != -1:
                                                     term = doesprodattrexist(jsonprodattr['pa_brand'], brandterm['term_id'], 'pa_brand')
                                                     if term:
@@ -787,7 +787,7 @@ while jsonprods:
                                             caties_result = []
                                             for catterm in caties:
                                                 term_name = catterm['name']
-                                                cat_html = productmisc_array[i]
+                                                cat_html = str(productmisc_array[i])
                                                 if cat_html.upper().find(term_name.upper()) != -1:
                                                     term = doesprodattrexist(jsonprodattr['product_cat'], catterm['term_id'], 'product_cat')
                                                     if term:
@@ -808,7 +808,7 @@ while jsonprods:
                                             colories_result = []
                                             for colorterm in colories:
                                                 term_name = colorterm['name']
-                                                color_html = productmisc_array[i]
+                                                color_html = str(productmisc_array[i])
                                                 if color_html.upper().find(term_name.upper()) != -1:
                                                     term = doesprodattrexist(jsonprodattr['pa_color'], colorterm['term_id'], 'pa_color')
                                                     if term:
