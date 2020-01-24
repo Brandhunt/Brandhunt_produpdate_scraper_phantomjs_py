@@ -218,7 +218,7 @@ while jsonprods:
                         #optionals.add_argument('--disable-dev-shm-usage')
                         optionals.add_argument('--disable-extensions')
                         optionals.add_argument('--no-sandbox')
-                        #optionals.add_argument('--lang=sv')
+                        optionals.add_argument('--lang=sv')
                         optionals.add_experimental_option('prefs', {'intl.accept_languages': 'sv,en_US,en'})
                         #optionals.add_argument('--disable-gpu')
                         #optionals.add_argument('--ignore-certificate-errors')
