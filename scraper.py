@@ -609,7 +609,7 @@ while jsonprods:
                                                 else:
                                                     newprice = newprice.replace(r'[^0-9,.]', '')
                                                     newprice = getmoneyfromtext(newprice)   
-                                                saleprice = price
+                                                salesprice = price
                                                 price = newprice
                                         # --- Get sex attributes from current scrape --- #
                                         if productmisc_array[(i-1)] == 'pa_sex':
