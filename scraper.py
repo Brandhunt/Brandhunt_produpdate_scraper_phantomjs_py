@@ -218,8 +218,10 @@ while jsonprods:
                         #optionals.add_argument('--disable-dev-shm-usage')
                         optionals.add_argument('--disable-extensions')
                         optionals.add_argument('--no-sandbox')
-                        optionals.add_argument('--lang=sv')
-                        optionals.add_experimental_option('prefs', {'intl.accept_languages': 'sv,en_US,en'})
+                        #optionals.add_argument('--lang=sv')
+                        optionals.add_experimental_option('prefs', {'intl.accept_languages': 'sv',
+                                                                   'profile.default_content_setting_values.geolocation': 1,
+                                                                   "profile.default_content_settings.geolocation": 1})
                         #optionals.add_argument('--disable-gpu')
                         #optionals.add_argument('--ignore-certificate-errors')
                         html_source = ''
@@ -228,6 +230,10 @@ while jsonprods:
                             #browser = webdriver.Chrome(options=optionals, service_args=["--verbose"])
                             browser.driver.set_page_load_timeout(300)
                             browser.driver.set_window_size(1920, 1080)
+                            params = {"latitude": 59.3521,
+                              "longitude": 18.0041,
+                              "accuracy": 100}
+                            response = browser.driver.execute_cdp_cmd("Page.setGeolocationOverride", params)
                             # submit the search form...
                             ##browser.fill("q", "parliament")
                             ##button = browser.find_by_css("button[type='submit']")
