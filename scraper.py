@@ -21,6 +21,7 @@ import re
 from selenium import webdriver
 #from selenium.webdriver.common.keys import Keys
 from selenium.common.exceptions import TimeoutException
+from selenium.common.exceptions import WebDriverException
 from selenium.webdriver.chrome.options import Options
 from selenium.webdriver.support.ui import WebDriverWait
 from slugify import slugify
@@ -284,7 +285,7 @@ while jsonprods:
                                         continue
                                 else:
                                     raise
-                            except selenium.common.exceptions.WebDriverException:
+                            except WebDriverException:
                                 print('Chrome not reachable - The product will be rescraped again!')
                                 jsonprods.append(product)
                                 time.sleep(2)
@@ -1228,7 +1229,7 @@ while jsonprods:
                                                                  insert_sizetosizetypemisc,\
                                                                  remove_sizetosizetypemisc])})
                             #browser.quit()
-                    except selenium.common.exceptions.WebDriverException:
+                    except WebDriverException:
                         print('Chrome not running properly - The product will be rescraped again!')
                         jsonprods.append(product)
                         time.sleep(2)
