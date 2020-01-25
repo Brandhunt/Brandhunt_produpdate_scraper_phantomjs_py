@@ -526,7 +526,7 @@ while jsonprods:
                                         price = newprice
                                         if salesprice != '':
                                             newprice = ''
-                                            newprice = price + productmisc_array[i].strip()
+                                            newprice = salesprice + productmisc_array[i].strip()
                                             if website['currencysymbol']:
                                                 newprice.upper()
                                                 newprice = converttocorrectprice(newprice, website['currencysymbol'])
