@@ -698,7 +698,7 @@ while jsonprods:
                                                 color_array = []
                                                 for color_termus in productmisc_array[i]:
                                                     color_termus = color_termus.text
-                                                    if color_termus is not Null:
+                                                    if color_termus is not None:
                                                         clean_color = slugify(color_termus.strip())
                                                         term = doesprodattrexist(jsonprodattr['pa_color'], color_termus, 'pa_color')
                                                         if term:
