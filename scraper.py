@@ -284,6 +284,11 @@ while jsonprods:
                                         continue
                                 else:
                                     raise
+                            except selenium.common.exceptions.WebDriverException:
+                                print('Chrome not reachable - The product will be rescraped again!')
+                                jsonprods.append(product)
+                                time.sleep(2)
+                                continue
                             except:
                                 #print("Error when scraping URL for product ID " + product['productid'] + ": " + str(sys.exc_info()[0]) + " occured!")
                                 print(traceback.format_exc())
