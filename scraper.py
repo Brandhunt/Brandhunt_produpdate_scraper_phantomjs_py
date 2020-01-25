@@ -641,7 +641,7 @@ while jsonprods:
                                         if productmisc_array[(i-1)] == 'pa_brand':
                                             brand_array = []
                                             if len(productmisc_array[i]) > 0:
-                                                if productmisc_array[i][0] is not None:
+                                                if productmisc_array[i][0].text is not None:
                                                     brand_termus = productmisc_array[i][0].text
                                                     clean_brand = slugify(brand_termus.strip())
                                                     term = doesprodattrexist(jsonprodattr['pa_brand'], brand_termus, 'pa_brand')
