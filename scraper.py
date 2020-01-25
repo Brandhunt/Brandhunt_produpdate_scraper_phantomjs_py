@@ -215,7 +215,7 @@ while jsonprods:
                         #optionals.add_argument('--no-proxy-server')
                         #optionals.add_argument("--proxy-server='direct://'")
                         #optionals.add_argument("--proxy-bypass-list=*")
-                        #optionals.add_argument('--disable-dev-shm-usage')
+                        optionals.add_argument('--disable-dev-shm-usage')
                         optionals.add_argument('--disable-extensions')
                         optionals.add_argument('--no-sandbox')
                         #optionals.add_argument('--lang=sv')
@@ -698,13 +698,14 @@ while jsonprods:
                                                 color_array = []
                                                 for color_termus in productmisc_array[i]:
                                                     color_termus = color_termus.text
-                                                    clean_color = slugify(color_termus.strip())
-                                                    term = doesprodattrexist(jsonprodattr['pa_color'], color_termus, 'pa_color')
-                                                    if term:
-                                                        color_array.append((term, False))
-                                                    else:
-                                                        term = {'term_id':-1, 'name':color_termus, 'slug':clean_color, 'taxonomy':'pa_color'}
-                                                        color_array.append((term, True))
+                                                    if color_termus is not Null:
+                                                        clean_color = slugify(color_termus.strip())
+                                                        term = doesprodattrexist(jsonprodattr['pa_color'], color_termus, 'pa_color')
+                                                        if term:
+                                                            color_array.append((term, False))
+                                                        else:
+                                                            term = {'term_id':-1, 'name':color_termus, 'slug':clean_color, 'taxonomy':'pa_color'}
+                                                            color_array.append((term, True))
                                                 product_colors = color_array
                                         # --- Get categories from current scrape --- #
                                         if productmisc_array[(i-1)] == 'pa_category':
