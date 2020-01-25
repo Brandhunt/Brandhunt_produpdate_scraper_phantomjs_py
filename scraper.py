@@ -1228,6 +1228,11 @@ while jsonprods:
                                                                  insert_sizetosizetypemisc,\
                                                                  remove_sizetosizetypemisc])})
                             #browser.quit()
+                    except selenium.common.exceptions.WebDriverException:
+                        print('Chrome not running properly - The product will be rescraped again!')
+                        jsonprods.append(product)
+                        time.sleep(2)
+                        continue
                     except:
                         #print("Error: " + sys.exc_info()[0] + " occured!")
                         print(traceback.format_exc())
