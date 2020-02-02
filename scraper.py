@@ -579,13 +579,13 @@ while jsonprods:
                                         if image_urls_valid != '':
                                             count = 0
                                             for e in range(0, len(image_urls_valid), 1):
-                                                if image_urls_valid[(e+count)].find(productmisc_array[i]) != -1:
+                                                if image_urls_valid[(e+count)].find(productmisc_array[i].strip()) != -1:
                                                     del image_urls_valid[e+count]
                                                     count-=1
                                                 images = ','.join(image_urls_valid)
                                         if prodlog_image_urls != '':
                                             for imagekey, imageval in prodlog_image_urls.copy().items():
-                                                if imageval.find(productmisc_array[i]) != -1:
+                                                if imageval.find(productmisc_array[i].strip()) != -1:
                                                     del prodlog_image_urls[imagekey]
                                             productlogourl = prodlog_image_urls[0]       
                                     # --- Should we remove the product on 404 Error? --- #
