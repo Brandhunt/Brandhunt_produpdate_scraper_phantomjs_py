@@ -536,6 +536,7 @@ while jsonprods:
                         insert_sizetosizetypemisc = ''
                         remove_sizetosizetypemisc = ''
                         skip_exist_attr = [0, 0, 0, 0, 0, 0, 0] # <==> [brand, color, sex, size, s-type, s-t-misc, categories]
+                        no_whitespace_htmlregex = False
                         # --> Define misc. storage variables
                         domain_name = ''
                         # --> Get 'em!
@@ -544,6 +545,9 @@ while jsonprods:
                                 for i in range(2, len(productmisc_array), 2):
                                     #print(productmisc_array[(i-1)])
                                     #print(productmisc_array[i])
+                                    # --- No leading/trailing whitespaces when using regex while searching pure HTML for attributes? --- #
+                                    if productmisc_array[(i-1)] == 'no_whitespace_htmlregex':
+                                        no_whitespace_htmlregex = True
                                     # --- Are the sizes belonging to the current product of a a specific misc. size type? --- #
                                     if productmisc_array[(i-1)] == 'sizetypemisc':
                                         sizetypemisc = productmisc_array[i]
@@ -872,7 +876,11 @@ while jsonprods:
                                                         for infliction in infliction_array:
                                                             #print('INFLICTION: ' + infliction)
                                                             #if cat_html.upper().find(r'\s'+infliction.upper()+r'\s') != -1:
-                                                            regex = '\s'+infliction.strip()+'\s'
+                                                            regex = ''
+                                                            if no_whitespace_htmlregex:
+                                                                regex = ''+infliction.strip()+''
+                                                            else:
+                                                                regex = '\s'+infliction.strip()+'\s'
                                                             #print('INF_REGEX: ' + regex)
                                                             if re.search(regex, cat_html, flags=re.IGNORECASE):
                                                                 #print('FOUND INFLICTION!')
@@ -886,7 +894,11 @@ while jsonprods:
                                                                             caties_result.append((parent, False))
                                                 #print('CATTERM: ' + term_name)
                                                 #if cat_html.upper().find(r'\s'+term_name.upper()+r'\s') != -1:
-                                                regex = '\s'+term_name.strip()+'\s'
+                                                regex = ''
+                                                if no_whitespace_htmlregex:
+                                                    regex = ''+term_name.strip()+''
+                                                else:
+                                                    regex = '\s'+term_name.strip()+'\s'
                                                 #print('CATTERM_REGEX: ' + regex)
                                                 if re.search(regex, cat_html, flags=re.IGNORECASE):
                                                     #print('FOUND CATTERM!')
