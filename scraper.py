@@ -808,7 +808,13 @@ while jsonprods:
                                             for sexterm in sexies:
                                                 term_name = sexterm['name']
                                                 sex_html = str(productmisc_array[i])
-                                                if sex_html.upper().find(term_name.upper()) != -1:
+                                                regex = ''
+                                                if term_name == 'Male':
+                                                    regex = r'male|men|man'
+                                                elif term_name == 'Female':
+                                                    regex = r'female|women|woman'
+                                                #if sex_html.upper().find(term_name.upper()) != -1:
+                                                if re.search(regex, sex_html, flags=re.IGNORECASE):
                                                     term = doesprodattrexist(jsonprodattr['pa_sex'], sexterm['term_id'], 'pa_sex')
                                                     if term:
                                                         sexies_result.append((term, False))
