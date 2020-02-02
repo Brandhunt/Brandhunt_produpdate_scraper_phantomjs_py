@@ -877,7 +877,7 @@ while jsonprods:
                                                             #print('INFLICTION: ' + infliction)
                                                             #if cat_html.upper().find(r'\s'+infliction.upper()+r'\s') != -1:
                                                             regex = ''
-                                                            if no_whitespace_htmlregex:
+                                                            if no_whitespace_htmlregex is True:
                                                                 regex = ''+infliction.strip()+''
                                                             else:
                                                                 regex = '\s'+infliction.strip()+'\s'
@@ -895,7 +895,7 @@ while jsonprods:
                                                 #print('CATTERM: ' + term_name)
                                                 #if cat_html.upper().find(r'\s'+term_name.upper()+r'\s') != -1:
                                                 regex = ''
-                                                if no_whitespace_htmlregex:
+                                                if no_whitespace_htmlregex is True:
                                                     regex = ''+term_name.strip()+''
                                                 else:
                                                     regex = '\s'+term_name.strip()+'\s'
