@@ -620,12 +620,13 @@ while jsonprods:
                                           term = doesprodattrexist(jsonprodattr['product_cat'], cat, 'product_cat')
                                           #TUPPLE STRUCTURE: (Term(ID/NAME/SLUG), newtermTrue_existingtermFalse, resultcats)
                                           if term:
-                                             cat_result.append((term, False))
-                                             cat_parents = term['ancestors']
-                                             for parent_id in cat_parents:
-                                                 parent = doesprodattrexist(jsonprodattr['product_cat'], parent_id, 'product_cat')
-                                                 if not parent in cat_result:
-                                                      cat_result.append((parent, False))
+                                             if not list(filter(lambda x: x[0]['term_id'] == term['term_id'], cat_result)):
+                                                 cat_result.append((term, False))
+                                                 cat_parents = term['ancestors']
+                                                 for parent_id in cat_parents:
+                                                     parent = doesprodattrexist(jsonprodattr['product_cat'], parent_id, 'product_cat')
+                                                     if not list(filter(lambda x: x[0]['term_id'] == parent['term_id'], cat_result)):
+                                                        cat_result.append((parent, False))
                                           else:
                                               term = {'term_id':-1, 'name':cat, 'slug':clean_cat, 'taxonomy':'product_cat'}
                                               cat_result.append((term, True))
@@ -767,12 +768,13 @@ while jsonprods:
                                                     clean_cat = slugify(cat_termus.strip())
                                                     term = doesprodattrexist(jsonprodattr['product_cat'], cat_termus, 'product_cat')
                                                     if term:
-                                                        category_array.append((term, False))
-                                                        cat_parents = term['ancestors']
-                                                        for parent_id in cat_parents:
-                                                            parent = doesprodattrexist(jsonprodattr['product_cat'], parent_id, 'product_cat')
-                                                            if not parent in category_array:
-                                                                category_array.append((parent, False))
+                                                        if not list(filter(lambda x: x[0]['term_id'] == term['term_id'], category_array)):
+                                                            category_array.append((term, False))
+                                                            cat_parents = term['ancestors']
+                                                            for parent_id in cat_parents:
+                                                                parent = doesprodattrexist(jsonprodattr['product_cat'], parent_id, 'product_cat')
+                                                                if not list(filter(lambda x: x[0]['term_id'] == parent['term_id'], category_array)):
+                                                                    category_array.append((parent, False))
                                                     else:
                                                         term = {'term_id':-1, 'name':cat_termus, 'slug':clean_cat, 'taxonomy':'product_cat'}
                                                         category_array.append((term, True))
@@ -892,12 +894,13 @@ while jsonprods:
                                                                 #print('FOUND INFLICTION!')
                                                                 term = doesprodattrexist(jsonprodattr['product_cat'], catterm['term_id'], 'product_cat')
                                                                 if term:
-                                                                    caties_result.append((term, False))
-                                                                    cat_parents = term['ancestors']
-                                                                    for parent_id in cat_parents:
-                                                                        parent = doesprodattrexist(jsonprodattr['product_cat'], parent_id, 'product_cat')
-                                                                        if not parent in caties_result:
-                                                                            caties_result.append((parent, False))
+                                                                    if not list(filter(lambda x: x[0]['term_id'] == term['term_id'], caties_result)):
+                                                                        caties_result.append((term, False))
+                                                                        cat_parents = term['ancestors']
+                                                                        for parent_id in cat_parents:
+                                                                            parent = doesprodattrexist(jsonprodattr['product_cat'], parent_id, 'product_cat')
+                                                                            if not list(filter(lambda x: x[0]['term_id'] == parent['term_id'], caties_result)):
+                                                                                caties_result.append((parent, False))
                                                 #print('CATTERM: ' + term_name)
                                                 #if cat_html.upper().find(r'\s'+term_name.upper()+r'\s') != -1:
                                                 regex = ''
@@ -910,12 +913,13 @@ while jsonprods:
                                                     #print('FOUND CATTERM!')
                                                     term = doesprodattrexist(jsonprodattr['product_cat'], catterm['term_id'], 'product_cat')
                                                     if term:
-                                                        caties_result.append((term, False))
-                                                        cat_parents = term['ancestors']
-                                                        for parent_id in cat_parents:
-                                                            parent = doesprodattrexist(jsonprodattr['product_cat'], parent_id, 'product_cat')
-                                                            if not parent in caties_result:
-                                                                caties_result.append((parent, False))
+                                                        if not list(filter(lambda x: x[0]['term_id'] == term['term_id'], caties_result)):
+                                                            caties_result.append((term, False))
+                                                            cat_parents = term['ancestors']
+                                                            for parent_id in cat_parents:
+                                                                parent = doesprodattrexist(jsonprodattr['product_cat'], parent_id, 'product_cat')
+                                                                if not list(filter(lambda x: x[0]['term_id'] == parent['term_id'], caties_result)):
+                                                                    caties_result.append((parent, False))
                                             if caties_result:
                                                 if product_categories == '':
                                                     product_categories = caties_result
@@ -1404,21 +1408,23 @@ while jsonprods:
                                                 if re.search(regex, product_name, flags=re.IGNORECASE):
                                                     term = doesprodattrexist(jsonprodattr['product_cat'], term['term_id'], 'product_cat')
                                                     if term:
-                                                        category_result.append((term, False))
+                                                        if not list(filter(lambda x: x[0]['term_id'] == term['term_id'], category_result)):
+                                                            category_result.append((term, False))
                                                     cat_parents = term['ancestors']
                                                     for parent_id in cat_parents:
                                                         parent = doesprodattrexist(jsonprodattr['product_cat'], parent_id, 'product_cat')
-                                                        if not parent in category_result:
+                                                        if not list(filter(lambda x: x[0]['term_id'] == parent['term_id'], category_result)):
                                                             category_result.append((parent, False))
                                     regex = '\s'+term_name.strip()+'\s'
                                     if re.search(regex, product_name, flags=re.IGNORECASE):
                                         term = doesprodattrexist(jsonprodattr['product_cat'], term['term_id'], 'product_cat')
                                         if term:
-                                            category_result.append((term, False))
+                                            if not list(filter(lambda x: x[0]['term_id'] == term['term_id'], category_result)):
+                                                category_result.append((term, False))
                                         cat_parents = term['ancestors']
                                         for parent_id in cat_parents:
                                             parent = doesprodattrexist(jsonprodattr['product_cat'], parent_id, 'product_cat')
-                                            if not parent in category_result:
+                                            if not list(filter(lambda x: x[0]['term_id'] == parent['term_id'], category_result)):
                                                 category_result.append((parent, False))
                                     if category_result:
                                         existing_categories = product['category_ids'].copy()
