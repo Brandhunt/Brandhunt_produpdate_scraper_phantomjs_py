@@ -1426,28 +1426,34 @@ while jsonprods:
                                             parent = doesprodattrexist(jsonprodattr['product_cat'], parent_id, 'product_cat')
                                             if not list(filter(lambda x: x[0]['term_id'] == parent['term_id'], category_result)):
                                                 category_result.append((parent, False))
-                                    if category_result:
-                                        existing_categories = product['category_ids'].copy()
-                                        exist_cats = []
-                                        #print(json.dumps(existing_categories))
-                                        if existing_categories:
-                                            #count = 0
-                                            for cat in existing_categories.copy():
-                                                term = doesprodattrexist(jsonprodattr['product_cat'], cat, 'product_cat')
-                                                #print(json.dumps(term))
-                                                #print(cat)
-                                                if term['slug'] == 'uncategorized' and len(category_result) > 0:
-                                                    #del existing_categories[count]
-                                                    continue
-                                                #existing_categories[count] = ((term, False))
-                                                exist_cats.append((term, False))
-                                                #count+=1 
-                                            category_result = array_merge(category_result, exist_cats)
-                                        if product_categories != '':
-                                            product_categories = array_merge(product_categories, category_result)
-                                        else:
-                                            product_categories = category_result
-                                    catstoaddresult = product_categories
+                                if category_result:
+                                    existing_categories = product['category_ids'].copy()
+                                    exist_cats = []
+                                    #print(json.dumps(existing_categories))
+                                    if existing_categories:
+                                        #count = 0
+                                        for cat in existing_categories.copy():
+                                            term = doesprodattrexist(jsonprodattr['product_cat'], cat, 'product_cat')
+                                            #print(json.dumps(term))
+                                            #print(cat)
+                                            if (term['slug'] == 'uncategorized' and len(category_result) > 0)\
+                                            or list(filter(lambda x: x[0]['term_id'] == term['term_id'], category_result)):
+                                                #del existing_categories[count]
+                                                continue
+                                            #existing_categories[count] = ((term, False))
+                                            exist_cats.append((term, False))
+                                            #count+=1 
+                                        category_result = array_merge(category_result, exist_cats)
+                                    #print('PRODCATSFINAL_PRODTITLE: ' + json.dumps(product_categories))
+                                    #print('CATRESULTS_PRODTITLE: ' + json.dumps(category_result))
+                                    if product_categories != '':
+                                        #product_categories = array_merge(product_categories, category_result)
+                                        for result in category_result:
+                                            if not list(filter(lambda x: x[0]['term_id'] == result[0]['term_id'], product_categories)):
+                                                product_categories.append(result)
+                                    else:
+                                        product_categories = category_result
+                                catstoaddresult = product_categories
                             except:
                                 #print("Error when looking after prod. properties in title for product ID " + product['productid'] + ": " + sys.exc_info()[0] + " occured!")
                                 print(traceback.format_exc())
