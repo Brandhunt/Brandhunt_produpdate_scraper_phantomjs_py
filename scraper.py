@@ -363,9 +363,9 @@ while jsonprods:
                                 if website['pricedelimitertoignore'].strip().find(' ') != -1:
                                     sepdelimiters = website['pricedelimitertoignore'].strip().split(' ')
                                     for delim in sepdelimiters:
-                                        price = re.sub(r'\' + delim.strip() + '', '', price)
+                                        price = re.sub('\\' + delim.strip() + '', '', price)
                                 else:
-                                    price = re.sub(r'\' + website['pricedelimitertoignore'].strip() + '', '', price)    
+                                    price = re.sub('\\' + website['pricedelimitertoignore'].strip() + '', '', price)    
                             if website['currencysymbol']:
                                 #print('PRICEBEFORECONVERSION:' + price)
                                 #print('PRICE ELEMENTS:')
@@ -398,9 +398,9 @@ while jsonprods:
                                     if website['pricedelimitertoignore'].strip().find(' ') != -1:
                                         sepdelimiters = website['pricedelimitertoignore'].strip().split(' ')
                                         for delim in sepdelimiters:
-                                            salesprice = re.sub(r'\' + delim.strip() + '', '', salesprice)
+                                            salesprice = re.sub('\\' + delim.strip() + '', '', salesprice)
                                     else:
-                                        salesprice = re.sub(r'\' + website['pricedelimitertoignore'].strip() + '', '', salesprice)    
+                                        salesprice = re.sub('\\' + website['pricedelimitertoignore'].strip() + '', '', salesprice)    
 
                                 if website['currencysymbol']:
                                     salesprice = converttocorrectprice(salesprice, website['currencysymbol'])
@@ -660,9 +660,9 @@ while jsonprods:
                                                         if website['pricedelimitertoignore'].strip().find(' ') != -1:
                                                             sepdelimiters = website['pricedelimitertoignore'].strip().split(' ')
                                                             for delim in sepdelimiters:
-                                                                newprice = re.sub(r'\' + delim.strip() + '', '', newprice)
+                                                                newprice = re.sub('\\' + delim.strip() + '', '', newprice)
                                                         else:
-                                                            newprice = re.sub(r'\' + website['pricedelimitertoignore'].strip() + '', '', newprice) 
+                                                            newprice = re.sub('\\' + website['pricedelimitertoignore'].strip() + '', '', newprice) 
                                                     newprice = converttocorrectprice(newprice, website['currencysymbol'])
                                                 else:
                                                     newprice = newprice.replace(r'[^0-9,.]', '')
