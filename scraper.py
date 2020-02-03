@@ -271,8 +271,8 @@ while jsonprods:
                                 html_source = browser.html
                                 browser.quit()
                                 #browser.get(product['url'])
-                                #print("HTML:")
-                                #print(html)
+                                print("HTML:")
+                                print(html_source)
                             except HTTPError as err:
                                 if err.code == 302:
                                     try:
@@ -374,7 +374,7 @@ while jsonprods:
                             else:
                                 price = price.replace(r'[^0-9,.]', '')
                                 price = getmoneyfromtext(price)
-                            print('FINALPRICE:' + price)
+                            #print('FINALPRICE:' + price)
                         except:
                             #print("Error when scraping price for product ID " + product['productid'] + ": " + sys.exc_info()[0] + " occured!")
                             print(traceback.format_exc())
