@@ -1349,6 +1349,11 @@ while jsonprods:
                                 attribute_pos = 1
                                 if termies_result[0] and skip_exist_attr_prodtitle[0] != 1:
                                     brand_values = product_brand
+                                    skip_domain_name = False
+                                    if website['productmisc']:
+                                        output = re.search(r'(skip_domainbrand_if_found)', website['productmisc'])
+                                        if output is not None and len(output.group(0)) > 0:
+                                            skip_domain_name = True
                                     if brand_values:
                                         #existing_brands = re.split(',\s*', brand_values)
                                         existing_brands = brand_values
@@ -1357,6 +1362,8 @@ while jsonprods:
                                         ###    existing_brands[count] = (brand, False)
                                         ###    count+=1
                                         termies_result[0] = array_merge(termies_result[0], existing_brands)
+                                        if skip_domain_name and domain_name != '':
+                                            termies_result[0] = list(filter(lambda x: x[0]['name'].upper().find(domain_name.upper()) == -1, termies_result[0]))
                                     attributes.append({'name':'Brand', 'options':termies_result[0], 'position':attribute_pos, 'visible':1, 'variation':1})
                                     attribute_pos+=1
                                 else:
