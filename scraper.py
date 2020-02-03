@@ -250,7 +250,8 @@ while jsonprods:
                         #optionals.add_argument("disable-infobars") 
                         html_source = ''
                         root = ''
-                        with Browser('chrome', headless=True, options=optionals, service_args=['--ignore-ssl-errors=true', '--ssl-protocol=any']) as browser:
+                        #with Browser('chrome', headless=True, options=optionals, service_args=['--ignore-ssl-errors=true', '--ssl-protocol=any']) as browser:
+                        with Browser('chrome', headless=True, options=optionals) as browser:
                             #browser = webdriver.Chrome(options=optionals, service_args=["--verbose"])
                             browser.driver.set_page_load_timeout(300)
                             browser.driver.set_window_size(1920, 1080)
