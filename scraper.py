@@ -268,12 +268,13 @@ while jsonprods:
                             try:
                                 browser.visit(product['url'])
                                 time.sleep(2)
-                                html_source = browser.html
+                                #html_source = browser.html
+                                html_source = browser.driver.page_source
                                 browser.quit()
                                 #browser.get(product['url'])
                                 print("HTML:")
-                                #print(html_source)
-                                print(browser.driver.page_source)
+                                print(html_source)
+                                #print(browser.driver.page_source)
                             except HTTPError as err:
                                 if err.code == 302:
                                     try:
