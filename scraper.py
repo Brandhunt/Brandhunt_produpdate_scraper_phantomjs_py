@@ -217,8 +217,17 @@ jsonsizemaps = json.loads(r.content)
 
 while jsonprods:
     for website in jsonwebsites:
+        # Should we ignore the current website? #
         if website['ignorethisone'] == '1':
-            continue   
+            continue
+        # Check if there are any initial values to take care of! #
+        override_timeout = ''
+        if website['productmisc'] != '':
+            intro_output = re.search(r'({override_timeout}(.*?))\{', website['productmisc'])
+            if intro_output is not None and len(intro_output.group(1)) > 0:
+                override_timeout = intro_output.group(2)
+                website['productmisc'] = re.sub(r'({override_timeout}.*?(?=\{))', '', website['productmisc'])
+        # Check each product - See if any of them belong to the current website! #
         for product in jsonprods:
             if website['domain'] == product['domain']:
                 # --- First, get the HTML for each domain part --- #
@@ -274,7 +283,10 @@ while jsonprods:
                                 browser.visit(product['url'])
                                 #myDynamicElement = browser.driver.find_element_by_id("attribute135")
                                 #time.sleep(25)
-                                time.sleep(2)
+                                if override_timeout != '':
+                                    time.sleep(int(override_timeout))
+                                else:
+                                    time.sleep(2)
                                 #browser.driver.refresh()
                                 html_source = browser.html
                                 #html_source = browser.driver.page_source
