@@ -573,6 +573,22 @@ while jsonprods:
                                         if productmisc_array[i] != 'true':
                                             skip_exist_attr_prodtitle = [ int(skipval) for skipval in productmisc_array[i].strip().split(',') ]
                                             productmisc_array[i] = 'true'
+                                    # --- Should we skip any sizes that correspond with other page elements on a certain condition? --- #
+                                    # !!! IMPORTANT --- PUT THIS AFTER ALL STANDARD SIZES HAVE BEEN IMPORTED FROM PRODUCTMISC STRING! --- IMPORTANT !!! #
+                                    if productmisc_array[(i-1)] == 'skip_pa_size_on_corrsp':
+                                        if product_sizes != '':
+                                            corrsp_elements = productmisc_array[i].split(',')
+                                            corrsp_elements[0] = root.cssselect(corrsp_elements[0].encode().decode("unicode-escape"))
+                                            corrsp_elements[1] = corrsp_elements[1].strip().split('|')
+                                            if corrsp_elements[1][0] == 'bool_text':
+                                                count = 0
+                                                for el in corrsp_elements[0]:
+                                                    if el.text is not None:
+                                                        if el.text == corrsp_elements[1][1]:
+                                                            del product_sizes[count]
+                                                            continue
+                                                    count += 1
+                                        productmisc_array[i] = 'true'
                                     # --- Are there any pre-existing currencies to apply to the price(s)? --- #
                                     if productmisc_array[(i-1)] == 'pre_existing_currency':
                                         preexistingcurrency = productmisc_array[i]
