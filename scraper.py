@@ -240,7 +240,7 @@ while jsonprods:
                         optionals.add_argument('--disable-dev-shm-usage')
                         optionals.add_argument('--disable-extensions')
                         optionals.add_argument('--no-sandbox')
-                        optionals.add_argument('--lang=en_US') 
+                        #optionals.add_argument('--lang=en_US') 
                         #optionals.add_argument('--lang=sv')
                         optionals.add_experimental_option('prefs', {'intl.accept_languages': 'sv',
                                                                    'profile.default_content_setting_values.geolocation': 1,
@@ -270,9 +270,9 @@ while jsonprods:
                             ##    print link['href']
                             # >>> VISIT THE PAGE THROUGH BROWSER <<< #
                             try:
-                                browser.driver.implicitly_wait(30) # seconds
+                                #browser.driver.implicitly_wait(30) # seconds
                                 browser.visit(product['url'])
-                                myDynamicElement = browser.driver.find_element_by_id("attribute135")
+                                #myDynamicElement = browser.driver.find_element_by_id("attribute135")
                                 #time.sleep(25)
                                 time.sleep(2)
                                 #browser.driver.refresh()
@@ -281,8 +281,8 @@ while jsonprods:
                                 #html_source = browser.driver.execute_script('return document.documentElement.outerHTML')
                                 browser.quit()
                                 #browser.get(product['url'])
-                                print("HTML:")
-                                print(html_source)
+                                #print("HTML:")
+                                #print(html_source)
                                 #print(browser.driver.page_source)
                             except HTTPError as err:
                                 if err.code == 302:
