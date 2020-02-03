@@ -268,8 +268,9 @@ while jsonprods:
                             try:
                                 browser.visit(product['url'])
                                 time.sleep(2)
-                                html_source = browser.html
+                                #html_source = browser.html
                                 #html_source = browser.driver.page_source
+                                html_source = driver.execute_script('return document.documentElement.outerHTML')
                                 browser.quit()
                                 #browser.get(product['url'])
                                 print("HTML:")
