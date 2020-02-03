@@ -267,7 +267,7 @@ while jsonprods:
                             # >>> VISIT THE PAGE THROUGH BROWSER <<< #
                             try:
                                 browser.visit(product['url'])
-                                time.sleep(2)
+                                #time.sleep(2)
                                 html_source = browser.html
                                 #html_source = browser.driver.page_source
                                 #html_source = browser.driver.execute_script('return document.documentElement.outerHTML')
