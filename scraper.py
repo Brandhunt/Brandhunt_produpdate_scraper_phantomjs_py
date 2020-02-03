@@ -1362,7 +1362,7 @@ while jsonprods:
                                         ###    existing_brands[count] = (brand, False)
                                         ###    count+=1
                                         termies_result[0] = array_merge(termies_result[0], existing_brands)
-                                        if skip_domain_name and domain_name != '':
+                                        if skip_domain_name and domain_name != '' and len(termies_result[0]) > 1:
                                             termies_result[0] = list(filter(lambda x: x[0]['name'].upper().find(domain_name.upper()) == -1, termies_result[0]))
                                     attributes.append({'name':'Brand', 'options':termies_result[0], 'position':attribute_pos, 'visible':1, 'variation':1})
                                     attribute_pos+=1
