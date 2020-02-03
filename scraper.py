@@ -269,7 +269,9 @@ while jsonprods:
                             ##    print link['href']
                             # >>> VISIT THE PAGE THROUGH BROWSER <<< #
                             try:
+                                browser.driver.implicitly_wait(30) # seconds
                                 browser.visit(product['url'])
+                                myDynamicElement = browser.driver.find_element_by_id("attribute135")
                                 #time.sleep(25)
                                 time.sleep(2)
                                 #browser.driver.refresh()
