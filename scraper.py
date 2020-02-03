@@ -963,10 +963,10 @@ while jsonprods:
                                                     price = getmoneyfromtext(price)
                                                 else:
                                                     soldouthtmlupdatemeta = False
-                                        # --- Should we skip the first size alternative on information import? --- #
-                                        if productmisc_array[(i-1)] == 'skip_first_size':
-                                            if product_sizes != '':
-                                                removed_size = product_sizes.pop(0)
+                                    # --- Should we skip the first size alternative on information import? --- #
+                                    if productmisc_array[(i-1)] == 'skip_first_size':
+                                        if product_sizes != '':
+                                            removed_size = product_sizes.pop(0)
                                 # --> Fix categories for the product! <-- #
                                 if product_categories:
                                     existing_categories = product['category_ids'].copy()
