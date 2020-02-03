@@ -237,13 +237,13 @@ while jsonprods:
                         #optionals.add_argument('--no-proxy-server')
                         #optionals.add_argument("--proxy-server='direct://'")
                         #optionals.add_argument("--proxy-bypass-list=*")
-                        optionals.add_argument('--disable-dev-shm-usage')
-                        optionals.add_argument('--disable-extensions')
-                        optionals.add_argument('--no-sandbox')
+                        ###optionals.add_argument('--disable-dev-shm-usage')
+                        ###optionals.add_argument('--disable-extensions')
+                        ###optionals.add_argument('--no-sandbox')
                         #optionals.add_argument('--lang=sv')
-                        optionals.add_experimental_option('prefs', {'intl.accept_languages': 'sv',
-                                                                   'profile.default_content_setting_values.geolocation': 1,
-                                                                   "profile.default_content_settings.geolocation": 1})
+                        ###optionals.add_experimental_option('prefs', {'intl.accept_languages': 'sv',
+                        ###                                           'profile.default_content_setting_values.geolocation': 1,
+                        ###                                           "profile.default_content_settings.geolocation": 1})
                         #optionals.add_argument('--disable-gpu')
                         #optionals.add_argument('--ignore-certificate-errors')
                         #optionals.add_argument("--start-maximized") 
