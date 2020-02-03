@@ -246,12 +246,14 @@ while jsonprods:
                                                                    "profile.default_content_settings.geolocation": 1})
                         #optionals.add_argument('--disable-gpu')
                         #optionals.add_argument('--ignore-certificate-errors')
+                        optionals.add_argument("--start-maximized") 
+                        optionals.add_argument("disable-infobars") 
                         html_source = ''
                         root = ''
                         with Browser('chrome', headless=True, options=optionals) as browser:
                             #browser = webdriver.Chrome(options=optionals, service_args=["--verbose"])
                             browser.driver.set_page_load_timeout(300)
-                            browser.driver.set_window_size(1920, 1080)
+                            ###browser.driver.set_window_size(1920, 1080)
                             params = {"latitude": 59.3521,
                               "longitude": 18.0041,
                               "accuracy": 100}
