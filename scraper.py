@@ -240,6 +240,7 @@ while jsonprods:
                         optionals.add_argument('--disable-dev-shm-usage')
                         optionals.add_argument('--disable-extensions')
                         optionals.add_argument('--no-sandbox')
+                        optionals.add_argument('--lang=en_US') 
                         #optionals.add_argument('--lang=sv')
                         optionals.add_experimental_option('prefs', {'intl.accept_languages': 'sv',
                                                                    'profile.default_content_setting_values.geolocation': 1,
