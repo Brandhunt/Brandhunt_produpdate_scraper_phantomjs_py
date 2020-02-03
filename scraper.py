@@ -667,14 +667,11 @@ while jsonprods:
                                     # --- Should the product apply the male/female attribute automatically? --- #
                                     # --- !!! IMPORTANT --> IF THIS SHOULD OVERRIDE OTHER SEX ATTR. IMPORTS, !!! --- #
                                     # --- !!! THEN PUT THIS LAST IN ORDER IN PRODUCTMISC. TEXT FIELD BEFORE SCRAPING !!! --- #
-                                    if not product_sex:
+                                    if product_sex == '':
                                         if productmisc_array[(i-1)] == 'is_male':
                                             product_sex = [(doesprodattrexist(jsonprodattr['pa_sex'], 'Male', 'pa_sex'), False)]
                                         elif productmisc_array[(i-1)] == 'is_female':
                                             product_sex = [(doesprodattrexist(jsonprodattr['pa_sex'], 'Female', 'pa_sex'), False)]
-                                        else:
-                                            product_sex = [(doesprodattrexist(jsonprodattr['pa_sex'], 'Male', 'pa_sex'), False),
-                                                          (doesprodattrexist(jsonprodattr['pa_sex'], 'Female', 'pa_sex'), False)]
                                         #print('SEX VALUES:')
                                         #print(i)
                                         #for sex in product_sex: print(sex)
@@ -994,6 +991,10 @@ while jsonprods:
                                     if productmisc_array[(i-1)] == 'skip_first_size':
                                         if product_sizes != '':
                                             removed_size = product_sizes.pop(0)
+                                # --> Fix sex for the product if it doesn't exist already! <-- #
+                                if product_sex == '':
+                                    product_sex = [(doesprodattrexist(jsonprodattr['pa_sex'], 'Male', 'pa_sex'), False),
+                                                   (doesprodattrexist(jsonprodattr['pa_sex'], 'Female', 'pa_sex'), False)]
                                 # --> Fix categories for the product! <-- #
                                 if product_categories:
                                     existing_categories = product['category_ids'].copy()
