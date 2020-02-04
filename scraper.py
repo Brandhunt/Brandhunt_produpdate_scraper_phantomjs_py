@@ -337,6 +337,7 @@ while jsonprods:
                                                           'validimgurls': '',\
                                                           'imgurls': '',\
                                                           'notfound': notfound,\
+                                                          'notavailable': True,\
                                                           'removeon404': removeon404,\
                                                           'soldoutfix': '',\
                                                           'soldouthtmlfix': '',\
@@ -579,6 +580,7 @@ while jsonprods:
                         sizetypemisc = ''
                         preexistingcurrency = ''
                         notfound = False
+                        notavailable = False
                         shouldremoveonnotfound = False
                         soldoutupdatemeta = False
                         soldouthtmlupdatemeta = False
@@ -599,6 +601,10 @@ while jsonprods:
                                 for i in range(2, len(productmisc_array), 2):
                                     #print(productmisc_array[(i-1)])
                                     #print(productmisc_array[i])
+                                    # --- Set product as 'Not Available' if the product has been found but the price is not available? --- #
+                                    if productmisc_array[(i-1)] == 'allow_not_available':
+                                        if price == '-1':
+                                            notavailable = True
                                     # --- No leading/trailing whitespaces when using regex while searching pure HTML for attributes? --- #
                                     if productmisc_array[(i-1)] == 'no_whitespace_htmlregex':
                                         no_whitespace_htmlregex = True
@@ -1573,6 +1579,7 @@ while jsonprods:
                                                       'validimgurls': json.dumps(image_urls_valid),\
                                                       'imgurls': json.dumps(image_urls),\
                                                       'notfound': notfound,\
+                                                      'notavailable': notavailable,\
                                                       'removeon404': shouldremoveonnotfound,\
                                                       'soldoutfix': soldoutupdatemeta,\
                                                       'soldouthtmlfix': soldouthtmlupdatemeta,\
