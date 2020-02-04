@@ -1376,6 +1376,7 @@ while jsonprods:
                                     attributes.append({'name':'Sizetypemisc', 'options':product_sizetypemiscs, 'position':attribute_pos, 'visible':1, 'variation':1})
                                     attribute_pos+=1
                                 attributes_to_store = attributes
+                                catstoaddresult = product_categories
                                 # --- Make sure to empty all the already-checked bits and join the productmisc. bits back together! --- #
                                 ###
                                 ###
