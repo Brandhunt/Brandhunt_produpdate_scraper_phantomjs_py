@@ -603,7 +603,7 @@ while jsonprods:
                                     #print(productmisc_array[i])
                                     # --- Set product as 'Not Available' if the product has been found but the price is not available? --- #
                                     if productmisc_array[(i-1)] == 'allow_not_available':
-                                        if price == '-1':
+                                        if price == '1':
                                             notavailable = True
                                     # --- No leading/trailing whitespaces when using regex while searching pure HTML for attributes? --- #
                                     if productmisc_array[(i-1)] == 'no_whitespace_htmlregex':
