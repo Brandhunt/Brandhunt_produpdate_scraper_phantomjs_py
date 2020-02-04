@@ -407,7 +407,7 @@ while jsonprods:
                             else:
                                 price = price.replace(r'[^0-9,.]', '')
                                 price = getmoneyfromtext(price)
-                            print('FINALPRICE:' + price)
+                            #print('FINALPRICE:' + price)
                         except:
                             #print("Error when scraping price for product ID " + product['productid'] + ": " + sys.exc_info()[0] + " occured!")
                             print(traceback.format_exc())
