@@ -593,6 +593,7 @@ while jsonprods:
                         skip_exist_attr = [0, 0, 0, 0, 0, 0, 0] # <==> [brand, color, sex, size, s-type, s-t-misc, categories]
                         skip_exist_attr_prodtitle = [0, 0, 0, 0] # <==> [brand, color, sex, categories]
                         no_whitespace_htmlregex = False
+                        no_whitespace_prodtitleregex = False
                         # --> Define misc. storage variables
                         domain_name = ''
                         # --> Get 'em!
@@ -605,6 +606,9 @@ while jsonprods:
                                     if productmisc_array[(i-1)] == 'allow_not_available':
                                         if price == '1':
                                             notavailable = True
+                                    # --- No leading/trailing whitespaces when using regex while searching prod. title for attributes? --- #
+                                    if productmisc_array[(i-1)] == 'no_whitespace_prodtitleregex':
+                                        no_whitespace_prodtitleregex = True
                                     # --- No leading/trailing whitespaces when using regex while searching pure HTML for attributes? --- #
                                     if productmisc_array[(i-1)] == 'no_whitespace_htmlregex':
                                         no_whitespace_htmlregex = True
