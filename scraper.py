@@ -1513,7 +1513,10 @@ while jsonprods:
                                         if term_name in array_categorymaps:
                                             infliction_array = jsoncatmaps[term_name]['catinflections'].split(',')
                                             for infliction in infliction_array:
-                                                regex = '\s'+infliction.strip()+'\s'
+                                                if no_whitespace_prodtitleregex is True:
+                                                    regex = ''+infliction.strip()+''
+                                                else:
+                                                    regex = '\s'+infliction.strip()+'\s'
                                                 if re.search(regex, product_name, flags=re.IGNORECASE):
                                                     term = doesprodattrexist(jsonprodattr['product_cat'], term['term_id'], 'product_cat')
                                                     if term:
@@ -1524,7 +1527,10 @@ while jsonprods:
                                                         parent = doesprodattrexist(jsonprodattr['product_cat'], parent_id, 'product_cat')
                                                         if not list(filter(lambda x: x[0]['term_id'] == parent['term_id'], category_result)):
                                                             category_result.append((parent, False))
-                                    regex = '\s'+term_name.strip()+'\s'
+                                    if no_whitespace_prodtitleregex is True:
+                                        regex = ''+term_name.strip()+''
+                                    else:
+                                        regex = '\s'+term_name.strip()+'\s'
                                     if re.search(regex, product_name, flags=re.IGNORECASE):
                                         term = doesprodattrexist(jsonprodattr['product_cat'], term['term_id'], 'product_cat')
                                         if term:
