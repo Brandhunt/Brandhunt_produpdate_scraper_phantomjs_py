@@ -884,9 +884,9 @@ while jsonprods:
                                                 sex_html = str(productmisc_array[i])
                                                 regex = ''
                                                 if term_name == 'Male':
-                                                    regex = r'male|men|man'
+                                                    regex = r'\bmale\b|\bmen\b|\bman\b'
                                                 elif term_name == 'Female':
-                                                    regex = r'female|women|woman'
+                                                    regex = r'\bfemale\b|\bwomen\b|\bwoman\b'
                                                 #if sex_html.upper().find(term_name.upper()) != -1:
                                                 if re.search(regex, sex_html, flags=re.IGNORECASE):
                                                     term = doesprodattrexist(jsonprodattr['pa_sex'], sexterm['term_id'], 'pa_sex')
