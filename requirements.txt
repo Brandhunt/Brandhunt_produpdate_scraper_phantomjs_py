@@ -12,3 +12,4 @@ selenium==3.141.0
 splinter~=0.10.0
 lxml~=4.3.3
 cssselect~=1.0.0
+cryptography~=2.8
