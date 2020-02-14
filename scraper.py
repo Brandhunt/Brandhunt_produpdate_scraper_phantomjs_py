@@ -242,7 +242,8 @@ proxies = []
 if finalproxies:
     randomproxy = random.choice(finalproxies)
     proxies = {'http': 'http://' + wonpr_user + ':' + wonpr_pass + '@' + randomproxy,
-        'https': 'https://' + wonpr_user + ':' + wonpr_pass + '@' + randomproxy}
+        'https': 'https://' + wonpr_user + ':' + wonpr_pass + '@' + randomproxy,
+        'no_proxy': 'localhost,127.0.0.1'}
 
 # --> Decode and handle these URLs!
 
@@ -292,13 +293,13 @@ while jsonprods:
                         optionals.add_argument('--disable-extensions')
                         optionals.add_argument('--no-sandbox')
                         optionals.add_argument("--headless")
-                        optionals.add_argument("--proxy-server=" + proxies['https'] + "")
+                        ###optionals.add_argument("--proxy-server=" + proxies['https'] + "")
                         #optionals.add_argument('--lang=en_US') 
                         #optionals.add_argument('--lang=sv')
                         optionals.add_experimental_option('prefs', {'intl.accept_languages': 'sv',
                                                                    'profile.default_content_setting_values.geolocation': 1,
                                                                    "profile.default_content_settings.geolocation": 1})
-                        #optionals_wire = { 'proxy': proxies }
+                        optionals_wire = { 'proxy': proxies }
                         #optionals.add_argument('--disable-gpu')
                         #optionals.add_argument('--ignore-certificate-errors')
                         #optionals.add_argument("--start-maximized") 
@@ -306,16 +307,17 @@ while jsonprods:
                         html_source = ''
                         root = ''
                         #with Browser('chrome', headless=True, options=optionals, service_args=['--ignore-ssl-errors=true', '--ssl-protocol=any']) as browser:
-                        with Browser('chrome', headless=True, options=optionals) as browser:
+                        #with Browser('chrome', headless=True, options=optionals) as browser:
+                        with webdriver.Chrome(options=optionals, seleniumwire_options=optionals_wire) as driver:
                             #browser.driver.close()
                             #browser.driver = webdriver.Chrome(options=optionals, seleniumwire_options=optionals_wire)
                             #browser = webdriver.Chrome(options=optionals, service_args=["--verbose"])
-                            browser.driver.set_page_load_timeout(300)
-                            browser.driver.set_window_size(1920, 1080)
+                            driver.set_page_load_timeout(300)
+                            driver.set_window_size(1920, 1080)
                             params = {"latitude": 59.3521,
                               "longitude": 18.0041,
                               "accuracy": 100}
-                            response = browser.driver.execute_cdp_cmd("Page.setGeolocationOverride", params)
+                            response = driver.execute_cdp_cmd("Page.setGeolocationOverride", params)
                             # submit the search form...
                             ##browser.fill("q", "parliament")
                             ##button = browser.find_by_css("button[type='submit']")
@@ -327,7 +329,7 @@ while jsonprods:
                             # >>> VISIT THE PAGE THROUGH BROWSER <<< #
                             try:
                                 #browser.driver.implicitly_wait(30) # seconds
-                                browser.visit(product['url'])
+                                driver.get(product['url'])
                                 #myDynamicElement = browser.driver.find_element_by_id("attribute135")
                                 #time.sleep(25)
                                 if override_timeout != '':
@@ -335,13 +337,13 @@ while jsonprods:
                                 else:
                                     time.sleep(2)
                                 #browser.driver.refresh()
-                                html_source = browser.html
+                                html_source = driver.page_source
                                 #html_source = browser.driver.page_source
                                 #html_source = browser.driver.execute_script('return document.documentElement.outerHTML')
-                                browser.quit()
+                                driver.quit()
                                 #browser.get(product['url'])
-                                print("HTML:")
-                                print(html_source)
+                                #print("HTML:")
+                                #print(html_source)
                                 #print(browser.driver.page_source)
                             except HTTPError as err:
                                 if err.code == 302:
