@@ -18,9 +18,9 @@ import json
 import base64
 #import mysql.connector
 import re
-import random
+###import random
 #from selenium import webdriver
-from seleniumwire import webdriver
+###from seleniumwire import webdriver
 #from selenium.webdriver.common.keys import Keys
 from selenium.common.exceptions import TimeoutException
 from selenium.common.exceptions import WebDriverException
@@ -215,35 +215,35 @@ jsonsizemaps = json.loads(r.content)
 
 # --> Get the proxy information and related modules!
 
-wonpr_token = os.environ['MORPH_WONPR_API_TOKEN']
-wonpr_url = os.environ['MORPH_WONPR_CONNECT_URL']
-wonpr_secret_key = os.environ['MORPH_WONPR_SECRET_KEY']
-wonpr_user = os.environ['MORPH_WONPR_USERNAME']
-wonpr_pass = os.environ['MORPH_WONPR_PASSWORD']
-
-encodestring2 = wonpr_token + ':'
-token2 = base64.b64encode(encodestring2.encode())
-wonpr_headers = {'Authorization': 'Basic ' + token2.decode('ascii')}
-
-r = requests.get(wonpr_url, headers=wonpr_headers)
-jsonproxies = json.loads(r.content)
-finalproxies = []
+###wonpr_token = os.environ['MORPH_WONPR_API_TOKEN']
+###wonpr_url = os.environ['MORPH_WONPR_CONNECT_URL']
+###wonpr_secret_key = os.environ['MORPH_WONPR_SECRET_KEY']
+###wonpr_user = os.environ['MORPH_WONPR_USERNAME']
+###wonpr_pass = os.environ['MORPH_WONPR_PASSWORD']
+###
+###encodestring2 = wonpr_token + ':'
+###token2 = base64.b64encode(encodestring2.encode())
+###wonpr_headers = {'Authorization': 'Basic ' + token2.decode('ascii')}
+###
+###r = requests.get(wonpr_url, headers=wonpr_headers)
+###jsonproxies = json.loads(r.content)
+###finalproxies = []
 
 #print(jsonproxies)
 
-for proxy in jsonproxies:
-    if proxy['server'] == 'stockholm' or proxy['server'] == 'gothenburg':
-        for ip in proxy['ips']:
-            if ip['status'] == 'ok':
-                finalproxies.append(proxy['hostname'] + ':1100' + str(ip['port_base']))
-                break
-                
-proxies = []
-if finalproxies:
-    randomproxy = random.choice(finalproxies)
-    proxies = {'http': 'http://' + wonpr_user + ':' + wonpr_pass + '@' + randomproxy,
-        'https': 'https://' + wonpr_user + ':' + wonpr_pass + '@' + randomproxy,
-        'no_proxy': 'localhost,127.0.0.1'}
+###for proxy in jsonproxies:
+###    if proxy['server'] == 'stockholm' or proxy['server'] == 'gothenburg':
+###        for ip in proxy['ips']:
+###            if ip['status'] == 'ok':
+###                finalproxies.append(proxy['hostname'] + ':1100' + str(ip['port_base']))
+###                break
+###                
+###proxies = []
+###if finalproxies:
+###    randomproxy = random.choice(finalproxies)
+###    proxies = {'http': 'http://' + wonpr_user + ':' + wonpr_pass + '@' + randomproxy,
+###        'https': 'https://' + wonpr_user + ':' + wonpr_pass + '@' + randomproxy,
+###        'no_proxy': 'localhost,127.0.0.1'}
 
 # --> Decode and handle these URLs!
 
@@ -300,7 +300,7 @@ while jsonprods:
                         optionals.add_experimental_option('prefs', {'intl.accept_languages': 'sv',
                                                                    'profile.default_content_setting_values.geolocation': 1,
                                                                    "profile.default_content_settings.geolocation": 1})
-                        optionals_wire = { 'proxy': proxies }
+                        ###optionals_wire = { 'proxy': proxies }
                         #optionals.add_argument('--disable-gpu')
                         #optionals.add_argument('--ignore-certificate-errors')
                         #optionals.add_argument("--start-maximized") 
@@ -309,7 +309,8 @@ while jsonprods:
                         root = ''
                         #with Browser('chrome', headless=True, options=optionals, service_args=['--ignore-ssl-errors=true', '--ssl-protocol=any']) as browser:
                         #with Browser('chrome', headless=True, options=optionals) as browser:
-                        with webdriver.Chrome(options=optionals, seleniumwire_options=optionals_wire) as driver:
+                        ###with webdriver.Chrome(options=optionals, seleniumwire_options=optionals_wire) as driver:
+                        with webdriver.Chrome(options=optionals) as driver:
                             #browser.driver.close()
                             #browser.driver = webdriver.Chrome(options=optionals, seleniumwire_options=optionals_wire)
                             #browser = webdriver.Chrome(options=optionals, service_args=["--verbose"])
