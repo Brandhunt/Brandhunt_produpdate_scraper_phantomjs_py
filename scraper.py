@@ -293,7 +293,7 @@ while jsonprods:
                         optionals.add_argument('--disable-extensions')
                         optionals.add_argument('--no-sandbox')
                         optionals.add_argument("--headless")
-                        ###optionals.add_argument("--proxy-server=" + proxies['https'] + "")
+                        optionals.add_argument("--proxy-server=" + proxies['https'] + "")
                         #optionals.add_argument('--lang=en_US') 
                         #optionals.add_argument('--lang=sv')
                         optionals.add_experimental_option('prefs', {'intl.accept_languages': 'sv',
@@ -307,17 +307,16 @@ while jsonprods:
                         html_source = ''
                         root = ''
                         #with Browser('chrome', headless=True, options=optionals, service_args=['--ignore-ssl-errors=true', '--ssl-protocol=any']) as browser:
-                        #with Browser('chrome', headless=True, options=optionals) as browser:
-                        with webdriver.Chrome(options=optionals, seleniumwire_options=optionals_wire) as driver:
+                        with Browser('chrome', headless=True, options=optionals) as browser:
                             #browser.driver.close()
                             #browser.driver = webdriver.Chrome(options=optionals, seleniumwire_options=optionals_wire)
                             #browser = webdriver.Chrome(options=optionals, service_args=["--verbose"])
-                            driver.set_page_load_timeout(300)
-                            driver.set_window_size(1920, 1080)
+                            browser.driver.set_page_load_timeout(300)
+                            browser.driver.set_window_size(1920, 1080)
                             params = {"latitude": 59.3521,
                               "longitude": 18.0041,
                               "accuracy": 100}
-                            response = driver.execute_cdp_cmd("Page.setGeolocationOverride", params)
+                            response = browser.driver.execute_cdp_cmd("Page.setGeolocationOverride", params)
                             # submit the search form...
                             ##browser.fill("q", "parliament")
                             ##button = browser.find_by_css("button[type='submit']")
@@ -329,7 +328,7 @@ while jsonprods:
                             # >>> VISIT THE PAGE THROUGH BROWSER <<< #
                             try:
                                 #browser.driver.implicitly_wait(30) # seconds
-                                driver.get(product['url'])
+                                browser.visit(product['url'])
                                 #myDynamicElement = browser.driver.find_element_by_id("attribute135")
                                 #time.sleep(25)
                                 if override_timeout != '':
@@ -337,10 +336,10 @@ while jsonprods:
                                 else:
                                     time.sleep(2)
                                 #browser.driver.refresh()
-                                html_source = driver.page_source
+                                html_source = browser.html
                                 #html_source = browser.driver.page_source
                                 #html_source = browser.driver.execute_script('return document.documentElement.outerHTML')
-                                driver.quit()
+                                browser.quit()
                                 #browser.get(product['url'])
                                 #print("HTML:")
                                 #print(html_source)
