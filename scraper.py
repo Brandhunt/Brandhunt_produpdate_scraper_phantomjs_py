@@ -342,8 +342,8 @@ while jsonprods:
                                 #html_source = browser.driver.execute_script('return document.documentElement.outerHTML')
                                 driver.quit()
                                 #browser.get(product['url'])
-                                #print("HTML:")
-                                #print(html_source)
+                                print("HTML:")
+                                print(html_source)
                                 #print(browser.driver.page_source)
                             except HTTPError as err:
                                 if err.code == 302:
