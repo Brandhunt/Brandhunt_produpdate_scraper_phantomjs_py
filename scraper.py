@@ -248,6 +248,7 @@ if finalproxies:
 # --> Decode and handle these URLs!
 
 #arraus = []
+totalscrapedcount = 0
 
 while jsonprods:
     for website in jsonwebsites:
@@ -384,6 +385,7 @@ while jsonprods:
                                                           'catstoaddresult': '',\
                                                           'attributes': '',\
                                                           'sizetypemapsqls': ''})
+                                        totalscrapedcount = totalscrapedcount + 1
                                         continue
                                     except:
                                         print(traceback.format_exc())
@@ -398,7 +400,7 @@ while jsonprods:
                             except:
                                 #print("Error when scraping URL for product ID " + product['productid'] + ": " + str(sys.exc_info()[0]) + " occured!")
                                 print(traceback.format_exc())
-                        print("Currently scraping product with ID " + str(product['productid']))
+                        # # # # # print("Currently scraping product with ID " + str(product['productid'])) # # # # #
                         # >>> GET THE HTML ROOT <<< #
                         root = lxml.html.fromstring(html_source)
                         # >>> GET THE PRICE <<< #
@@ -440,14 +442,14 @@ while jsonprods:
                                 else:
                                     price = re.sub('\\' + website['pricedelimitertoignore'].strip() + '', '', price)    
                             if website['currencysymbol']:
-                                print('PRICEBEFORECONVERSION:' + price)
+                                #print('PRICEBEFORECONVERSION:' + price)
                                 #print('PRICE ELEMENTS:')
                                 #for p in price_elements: print p
                                 price = converttocorrectprice(price, website['currencysymbol'])
                             else:
                                 price = price.replace(r'[^0-9,.]', '')
                                 price = getmoneyfromtext(price)
-                            print('FINALPRICE:' + price)
+                            #print('FINALPRICE:' + price)
                         except:
                             #print("Error when scraping price for product ID " + product['productid'] + ": " + sys.exc_info()[0] + " occured!")
                             print(traceback.format_exc())
@@ -1641,6 +1643,7 @@ while jsonprods:
                                                                  insert_sizetosizetypemisc,\
                                                                  remove_sizetosizetypemisc])})
                             #browser.quit()
+                        totalscrapedcount = totalscrapedcount + 1
                     except WebDriverException:
                         print('Chrome not running properly - The product will be rescraped again!')
                         jsonprods.append(product)
@@ -1656,3 +1659,4 @@ while jsonprods:
     r = requests.get(wp_connectwp_url + str(offset) + '/' + str(limit) + '/', headers=headers)
     jsonprods = r.json()
     #print(str(offset) + ' products has been scraped so far!')
+    print(str(totalscrapedcount) + ' products has been scraped so far!')
