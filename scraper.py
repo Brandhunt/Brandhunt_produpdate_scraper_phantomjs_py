@@ -242,8 +242,7 @@ proxies = []
 if finalproxies:
     randomproxy = random.choice(finalproxies)
     proxies = {'http': 'http://' + wonpr_user + ':' + wonpr_pass + '@' + randomproxy,
-        'https': 'https://' + wonpr_user + ':' + wonpr_pass + '@' + randomproxy,
-        'no_proxy': 'localhost,127.0.0.1'}
+        'https': 'https://' + wonpr_user + ':' + wonpr_pass + '@' + randomproxy}
 
 # --> Decode and handle these URLs!
 
