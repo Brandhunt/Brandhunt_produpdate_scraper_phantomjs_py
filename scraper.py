@@ -292,13 +292,14 @@ while jsonprods:
                         optionals.add_argument('--disable-dev-shm-usage')
                         optionals.add_argument('--disable-extensions')
                         optionals.add_argument('--no-sandbox')
-                        optionals.add_argument("--headless")
+                        ###optionals.add_argument("--headless")
+                        optionals.add_argument("--proxy-server=" + proxies['https'] + "")
                         #optionals.add_argument('--lang=en_US') 
                         #optionals.add_argument('--lang=sv')
                         optionals.add_experimental_option('prefs', {'intl.accept_languages': 'sv',
                                                                    'profile.default_content_setting_values.geolocation': 1,
                                                                    "profile.default_content_settings.geolocation": 1})
-                        optionals_wire = { 'proxy': proxies }
+                        ###optionals_wire = { 'proxy': proxies }
                         #optionals.add_argument('--disable-gpu')
                         #optionals.add_argument('--ignore-certificate-errors')
                         #optionals.add_argument("--start-maximized") 
@@ -307,7 +308,7 @@ while jsonprods:
                         root = ''
                         #with Browser('chrome', headless=True, options=optionals, service_args=['--ignore-ssl-errors=true', '--ssl-protocol=any']) as browser:
                         with Browser('chrome', headless=True, options=optionals) as browser:
-                            browser.driver = webdriver.Chrome(options=optionals, seleniumwire_options=optionals_wire)
+                            ###browser.driver = webdriver.Chrome(options=optionals, seleniumwire_options=optionals_wire)
                             #browser = webdriver.Chrome(options=optionals, service_args=["--verbose"])
                             browser.driver.set_page_load_timeout(300)
                             browser.driver.set_window_size(1920, 1080)
