@@ -292,6 +292,7 @@ while jsonprods:
                         optionals.add_argument('--disable-dev-shm-usage')
                         optionals.add_argument('--disable-extensions')
                         optionals.add_argument('--no-sandbox')
+                        optionals.add_argument("--headless")
                         #optionals.add_argument('--lang=en_US') 
                         #optionals.add_argument('--lang=sv')
                         optionals.add_experimental_option('prefs', {'intl.accept_languages': 'sv',
@@ -305,7 +306,8 @@ while jsonprods:
                         html_source = ''
                         root = ''
                         #with Browser('chrome', headless=True, options=optionals, service_args=['--ignore-ssl-errors=true', '--ssl-protocol=any']) as browser:
-                        with Browser('chrome', headless=True, options=optionals, seleniumwire_options=optionals_wire) as browser:
+                        #with Browser('chrome', headless=True, options=optionals) as browser:
+                            browser.driver = webdriver.Chrome(options=optionals, seleniumwire_options=optionals_wire)
                             #browser = webdriver.Chrome(options=optionals, service_args=["--verbose"])
                             browser.driver.set_page_load_timeout(300)
                             browser.driver.set_window_size(1920, 1080)
