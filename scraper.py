@@ -342,8 +342,8 @@ while jsonprods:
                                 #html_source = browser.driver.execute_script('return document.documentElement.outerHTML')
                                 driver.quit()
                                 #browser.get(product['url'])
-                                print("HTML:")
-                                print(html_source)
+                                #print("HTML:")
+                                #print(html_source)
                                 #print(browser.driver.page_source)
                             except HTTPError as err:
                                 if err.code == 302:
@@ -440,14 +440,14 @@ while jsonprods:
                                 else:
                                     price = re.sub('\\' + website['pricedelimitertoignore'].strip() + '', '', price)    
                             if website['currencysymbol']:
-                                #print('PRICEBEFORECONVERSION:' + price)
+                                print('PRICEBEFORECONVERSION:' + price)
                                 #print('PRICE ELEMENTS:')
                                 #for p in price_elements: print p
                                 price = converttocorrectprice(price, website['currencysymbol'])
                             else:
                                 price = price.replace(r'[^0-9,.]', '')
                                 price = getmoneyfromtext(price)
-                            #print('FINALPRICE:' + price)
+                            print('FINALPRICE:' + price)
                         except:
                             #print("Error when scraping price for product ID " + product['productid'] + ": " + sys.exc_info()[0] + " occured!")
                             print(traceback.format_exc())
