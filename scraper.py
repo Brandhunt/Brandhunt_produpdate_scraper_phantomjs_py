@@ -18,6 +18,7 @@ import json
 import base64
 import mysql.connector
 import re
+import random
 from selenium import webdriver
 #from selenium.webdriver.common.keys import Keys
 from selenium.common.exceptions import TimeoutException
@@ -211,6 +212,37 @@ jsoncatmaps = json.loads(r.content)
 r = requests.get(wp_connectwp_url_6, headers=headers)
 jsonsizemaps = json.loads(r.content)
 
+# --> Get the proxy information and related modules!
+
+wonpr_token = os.environ['MORPH_WONPR_API_TOKEN']
+wonpr_url = os.environ['MORPH_WONPR_CONNECT_URL']
+wonpr_secret_key = os.environ['MORPH_WONPR_SECRET_KEY']
+wonpr_user = os.environ['MORPH_WONPR_USERNAME']
+wonpr_pass = os.environ['MORPH_WONPR_PASSWORD']
+
+encodestring2 = wonpr_token + ':'
+token2 = base64.b64encode(encodestring2.encode())
+wonpr_headers = {'Authorization': 'Basic ' + token2.decode('ascii')}
+
+r = requests.get(wonpr_url, headers=wonpr_headers)
+jsonproxies = json.loads(r.content)
+finalproxies = []
+
+#print(jsonproxies)
+
+for proxy in jsonproxies:
+    if proxy['server'] == 'stockholm' or proxy['server'] == 'gothenburg':
+        for ip in proxy['ips']:
+            if ip['status'] == 'ok':
+                finalproxies.append(proxy['hostname'] + ':1100' + str(ip['port_base']))
+                break
+                
+proxies = []
+if finalproxies:
+    randomproxy = random.choice(finalproxies)
+    proxies = {'http': 'http://' + wonpr_user + ':' + wonpr_pass + '@' + randomproxy,
+        'https': 'https://' + wonpr_user + ':' + wonpr_pass + '@' + randomproxy}
+
 # --> Decode and handle these URLs!
 
 #arraus = []
@@ -358,7 +390,7 @@ while jsonprods:
                             except:
                                 #print("Error when scraping URL for product ID " + product['productid'] + ": " + str(sys.exc_info()[0]) + " occured!")
                                 print(traceback.format_exc())
-                        print("Currently scraping product with ID " + str(product['productid']))
+                        # # # # # print("Currently scraping product with ID " + str(product['productid'])) # # # # #
                         # >>> GET THE HTML ROOT <<< #
                         root = lxml.html.fromstring(html_source)
                         # >>> GET THE PRICE <<< #
@@ -1615,4 +1647,4 @@ while jsonprods:
     offset = offset + limit
     r = requests.get(wp_connectwp_url + str(offset) + '/' + str(limit) + '/', headers=headers)
     jsonprods = r.json()
-    
+    print(str(offset) + ' products has been scraped so far!')
