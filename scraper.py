@@ -19,7 +19,7 @@ import base64
 #import mysql.connector
 import re
 ###import random
-#from selenium import webdriver
+from selenium import webdriver
 ###from seleniumwire import webdriver
 #from selenium.webdriver.common.keys import Keys
 from selenium.common.exceptions import TimeoutException
