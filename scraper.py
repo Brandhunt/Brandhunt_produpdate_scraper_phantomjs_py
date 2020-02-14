@@ -16,10 +16,11 @@ import lxml.html
 import requests
 import json
 import base64
-import mysql.connector
+#import mysql.connector
 import re
 import random
-from selenium import webdriver
+#from selenium import webdriver
+from seleniumwire import webdriver
 #from selenium.webdriver.common.keys import Keys
 from selenium.common.exceptions import TimeoutException
 from selenium.common.exceptions import WebDriverException
@@ -241,7 +242,8 @@ proxies = []
 if finalproxies:
     randomproxy = random.choice(finalproxies)
     proxies = {'http': 'http://' + wonpr_user + ':' + wonpr_pass + '@' + randomproxy,
-        'https': 'https://' + wonpr_user + ':' + wonpr_pass + '@' + randomproxy}
+        'https': 'https://' + wonpr_user + ':' + wonpr_pass + '@' + randomproxy,
+        'no_proxy': 'localhost,127.0.0.1'}
 
 # --> Decode and handle these URLs!
 
@@ -295,6 +297,7 @@ while jsonprods:
                         optionals.add_experimental_option('prefs', {'intl.accept_languages': 'sv',
                                                                    'profile.default_content_setting_values.geolocation': 1,
                                                                    "profile.default_content_settings.geolocation": 1})
+                        optionals_wire = { 'proxy': proxies }
                         #optionals.add_argument('--disable-gpu')
                         #optionals.add_argument('--ignore-certificate-errors')
                         #optionals.add_argument("--start-maximized") 
@@ -302,7 +305,7 @@ while jsonprods:
                         html_source = ''
                         root = ''
                         #with Browser('chrome', headless=True, options=optionals, service_args=['--ignore-ssl-errors=true', '--ssl-protocol=any']) as browser:
-                        with Browser('chrome', headless=True, options=optionals) as browser:
+                        with Browser('chrome', headless=True, options=optionals, seleniumwire_options=optionals_wire) as browser:
                             #browser = webdriver.Chrome(options=optionals, service_args=["--verbose"])
                             browser.driver.set_page_load_timeout(300)
                             browser.driver.set_window_size(1920, 1080)
