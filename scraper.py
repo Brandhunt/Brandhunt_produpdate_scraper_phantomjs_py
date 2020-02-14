@@ -299,7 +299,7 @@ while jsonprods:
                         optionals.add_experimental_option('prefs', {'intl.accept_languages': 'sv',
                                                                    'profile.default_content_setting_values.geolocation': 1,
                                                                    "profile.default_content_settings.geolocation": 1})
-                        optionals_wire = { 'proxy': proxies }
+                        #optionals_wire = { 'proxy': proxies }
                         #optionals.add_argument('--disable-gpu')
                         #optionals.add_argument('--ignore-certificate-errors')
                         #optionals.add_argument("--start-maximized") 
@@ -341,8 +341,8 @@ while jsonprods:
                                 #html_source = browser.driver.execute_script('return document.documentElement.outerHTML')
                                 browser.quit()
                                 #browser.get(product['url'])
-                                #print("HTML:")
-                                #print(html_source)
+                                print("HTML:")
+                                print(html_source)
                                 #print(browser.driver.page_source)
                             except HTTPError as err:
                                 if err.code == 302:
