@@ -337,7 +337,7 @@ while jsonprods:
                                 else:
                                     time.sleep(2)
                                 #browser.driver.refresh()
-                                html_source = driver.getPageSource();
+                                html_source = driver.page_source
                                 #html_source = browser.driver.page_source
                                 #html_source = browser.driver.execute_script('return document.documentElement.outerHTML')
                                 driver.quit()
