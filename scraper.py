@@ -602,10 +602,10 @@ while jsonprods:
                                         if imageval[0:2] == '//':
                                             imageval = 'https:' + imageval
                                             image_urls[imagekey] = imageval
+                                        print('TO SKIP:')
+                                        print(':::' + skip_from_img_url + ':::')
+                                        print(image_urls[imagekey])
                                         if skip_from_img_url != '':
-                                            print('TO SKIP:')
-                                            print(skip_from_img_url)
-                                            print(image_urls[imagekey])
                                             image_urls[imagekey] = image_urls[imagekey].replace(skip_from_img_url, '')
                                     image_urls_valid = list(image_urls.values())
                                 #print('IMAGE ELEMENTS:')
