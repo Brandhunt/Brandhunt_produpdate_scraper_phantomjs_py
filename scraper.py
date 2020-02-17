@@ -273,7 +273,10 @@ while jsonprods:
                 altimggrab = '2'
                 website['productmisc'] = re.sub(r'({alt_img_grab_2}.*?(?=\{))', '', website['productmisc'])
             intro_output = re.search(r'({skip_from_img_url}(.*?))\{', website['productmisc'])
+            print(website['productmisc'])
             if intro_output is not None and len(intro_output.group(1)) > 0:
+                print(intro_output.group(1))
+                print(intro_output.group(2))
                 skip_from_img_url = intro_output.group(2)
                 website['productmisc'] = re.sub(r'({skip_from_img_url}.*?(?=\{))', '', website['productmisc'])
         # Check each product - See if any of them belong to the current website! #
