@@ -259,7 +259,9 @@ while jsonprods:
         override_timeout = ''
         altimggrab = ''
         skip_from_img_url = ''
+        orig_prodmisc = ''
         if website['productmisc'] != '':
+            orig_prodmisc = website['productmisc']
             intro_output = re.search(r'({override_timeout}(.*?))\{', website['productmisc'])
             if intro_output is not None and len(intro_output.group(1)) > 0:
                 override_timeout = intro_output.group(2)
@@ -273,10 +275,7 @@ while jsonprods:
                 altimggrab = '2'
                 website['productmisc'] = re.sub(r'({alt_img_grab_2}.*?(?=\{))', '', website['productmisc'])
             intro_output = re.search(r'({skip_from_img_url}(.*?))\{', website['productmisc'])
-            print(website['productmisc'])
             if intro_output is not None and len(intro_output.group(1)) > 0:
-                print(intro_output.group(1))
-                print(intro_output.group(2))
                 skip_from_img_url = intro_output.group(2)
                 website['productmisc'] = re.sub(r'({skip_from_img_url}.*?(?=\{))', '', website['productmisc'])
         # Check each product - See if any of them belong to the current website! #
@@ -1669,6 +1668,8 @@ while jsonprods:
                         continue
                 else:
                     continue
+        if website['productmisc'] != '':
+            website['productmisc'] = orig_prodmisc
     offset = offset + limit
     r = requests.get(wp_connectwp_url + str(offset) + '/' + str(limit) + '/', headers=headers)
     jsonprods = r.json()
