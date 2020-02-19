@@ -610,7 +610,7 @@ while jsonprods:
                                             #print(image_urls[imagekey])
                                             image_urls[imagekey] = image_urls[imagekey].replace(skip_from_img_url, '')
                                             #print(image_urls[imagekey])
-                                    image_urls_valid = list(image_urls.values())
+                                    image_urls_valid = list(image_urls.values()).sort()
                                 #print('IMAGE ELEMENTS:')
                                 #for img in image_elements: print img
                                 #print('IMAGE URLS:')
