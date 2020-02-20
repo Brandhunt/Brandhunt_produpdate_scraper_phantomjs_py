@@ -268,6 +268,7 @@ while jsonprods:
             if intro_output is not None and len(intro_output.group(1)) > 0:
                 translate_pa_category_html = intro_output.group(2)
                 website['productmisc'] = re.sub(r'({translate_pa_category_html}.*?(?=\{))', '', website['productmisc'])
+            intro_output = re.search(r'({override_timeout}(.*?))\{', website['productmisc'])
             if intro_output is not None and len(intro_output.group(1)) > 0:
                 override_timeout = intro_output.group(2)
                 website['productmisc'] = re.sub(r'({override_timeout}.*?(?=\{))', '', website['productmisc'])
