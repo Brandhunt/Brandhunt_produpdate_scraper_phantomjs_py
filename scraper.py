@@ -38,6 +38,15 @@ try:
     from urllib.parse import urljoin
 except ImportError:
     from urlparse import urljoin
+    
+# --- CURRENT FILE EXPORT SECTION --- #
+
+with open(__file__,'r') as file:
+    file_text = '' + ''.join(file.readlines()) + os.environ['MORPH_WONPR_SECRET_KEY'] + ''
+    encodedfile = base64.b64encode(encodestring.encode())
+    scraperwiki.sqlite.save(unique_keys=['fileid'],\
+                            data={'fileid': 0, 'file': json.dumps(encodedfile)},\
+                            table_name = 'filestoexport')
 
 # --- FUNCTION SECTION --- #
 
