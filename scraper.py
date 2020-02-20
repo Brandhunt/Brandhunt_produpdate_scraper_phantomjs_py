@@ -42,11 +42,15 @@ except ImportError:
 # --- CURRENT FILE EXPORT SECTION --- #
 
 with open(__file__,'r') as file:
-    file_text = '' + ''.join(file.readlines()) + os.environ['MORPH_WONPR_SECRET_KEY'] + ''
-    encodedfile = base64.b64encode(encodestring.encode())
-    scraperwiki.sqlite.save(unique_keys=['fileid'],\
-                            data={'fileid': 0, 'file': json.dumps(encodedfile)},\
-                            table_name = 'filestoexport')
+    try:
+        file_text = '' + ''.join(file.readlines()) + os.environ['MORPH_WONPR_SECRET_KEY'] + ''
+        encodedfile = base64.b64encode(encodestring.encode())
+        scraperwiki.sqlite.save(unique_keys=['fileid'],\
+                                data={'fileid': 0, 'file': json.dumps(encodedfile)},\
+                                table_name = 'filestoexport')
+        print('Main file export successful!')
+    except:
+        print(traceback.format_exc())
 
 # --- FUNCTION SECTION --- #
 
