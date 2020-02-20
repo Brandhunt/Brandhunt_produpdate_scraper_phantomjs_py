@@ -47,8 +47,11 @@ with open(__file__, 'r') as file:
         #print(file_text)
         encodedfile = base64.b64encode(file_text.encode())
         #print(encodedfile)
+        #scraperwiki.sqlite.save(unique_keys=['fileid'],\
+        #                        data={'fileid': 0, 'file': json.dumps(str(encodedfile))},\
+        #                        table_name = 'filestoexport')
         scraperwiki.sqlite.save(unique_keys=['fileid'],\
-                                data={'fileid': 0, 'file': json.dumps(str(encodedfile))},\
+                                data={'fileid': 0, 'file': 'HEPP'},\
                                 table_name = 'filestoexport')
         #print(json.dumps(str(encodedfile)))
         print('Main file export successful!')
