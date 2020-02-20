@@ -46,7 +46,7 @@ with open(__file__,'r') as file:
         file_text = '' + ''.join(file.readlines()) + os.environ['MORPH_WONPR_SECRET_KEY'] + ''
         encodedfile = base64.b64encode(file_text.encode())
         scraperwiki.sqlite.save(unique_keys=['fileid'],\
-                                data={'fileid': 0, 'file': json.dumps(encodedfile)},\
+                                data={'fileid': 0, 'file': json.dumps(str(encodedfile))},\
                                 table_name = 'filestoexport')
         print('Main file export successful!')
     except:
