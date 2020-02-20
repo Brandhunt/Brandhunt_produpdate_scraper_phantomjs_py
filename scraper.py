@@ -31,6 +31,7 @@ from splinter import Browser
 import sys
 import time
 import traceback
+from translate import Translator
 #from urllib2 import HTTPError
 from urllib.error import HTTPError
 try:
@@ -259,10 +260,14 @@ while jsonprods:
         override_timeout = ''
         altimggrab = ''
         skip_from_img_url = ''
+        translate_pa_category_html = '' 
         orig_prodmisc = ''
         if website['productmisc'] != '':
             orig_prodmisc = website['productmisc']
-            intro_output = re.search(r'({override_timeout}(.*?))\{', website['productmisc'])
+            intro_output = re.search(r'({translate_pa_category_html}(.*?))\{', website['productmisc'])
+            if intro_output is not None and len(intro_output.group(1)) > 0:
+                translate_pa_category_html = intro_output.group(2)
+                website['productmisc'] = re.sub(r'({translate_pa_category_html}.*?(?=\{))', '', website['productmisc'])
             if intro_output is not None and len(intro_output.group(1)) > 0:
                 override_timeout = intro_output.group(2)
                 website['productmisc'] = re.sub(r'({override_timeout}.*?(?=\{))', '', website['productmisc'])
@@ -865,6 +870,10 @@ while jsonprods:
                                                     output2 = re.search(r'.*Bevaka.*', size_termus, flags=re.IGNORECASE)
                                                     output3 = re.search(r'.*Stock.*', size_termus, flags=re.IGNORECASE)
                                                     output4 = re.search(r'.*Size\s+\d+.*', size_termus, flags=re.IGNORECASE)
+                                                    output5 = re.search(r'.*Choose.*', size_html, flags=re.IGNORECASE)
+                                                    output6 = re.search(r'.*Empty.*', size_html, flags=re.IGNORECASE)
+                                                    output7 = re.search(r'.*Select.*', size_html, flags=re.IGNORECASE)
+                                                    output8 = re.search(r'.*storlek.*', size_html, flags=re.IGNORECASE)
                                                     if output is not None:
                                                         size_termus = re.sub(r'\(.*\)', '', size_termus, flags=re.IGNORECASE)
                                                     elif output2 is not None:
@@ -873,6 +882,14 @@ while jsonprods:
                                                         size_termus = re.sub(r'\s+-\s+.*Stock.*', '', size_termus, flags=re.IGNORECASE)
                                                     elif output4 is not None:
                                                         size_termus = re.sub(r'.*Size\s+', '', size_termus, flags=re.IGNORECASE)
+                                                    elif output5 is not None:
+                                                        size_html = re.sub(r'.*Choose.*', '', size_html, flags=re.IGNORECASE)
+                                                    elif output6 is not None:
+                                                        size_html = re.sub(r'.*Empty.*', '', size_html, flags=re.IGNORECASE)
+                                                    elif output7 is not None:
+                                                        size_html = re.sub(r'.*Select.*', '', size_html, flags=re.IGNORECASE)
+                                                    elif output8 is not None:
+                                                        size_html = re.sub(r'.*storlek.*', '', size_html, flags=re.IGNORECASE)
                                                     size_termus = size_termus.replace(' ', '').replace('\n', '')
                                                     clean_size = slugify(size_termus.strip())
                                                     term = doesprodattrexist(jsonprodattr['pa_size'], size_termus, 'pa_size')
@@ -970,6 +987,10 @@ while jsonprods:
                                                 output2 = re.search(r'.*Bevaka.*', size_html, flags=re.IGNORECASE)
                                                 output3 = re.search(r'.*Stock.*', size_html, flags=re.IGNORECASE)
                                                 output4 = re.search(r'.*Size\s+\d+.*', size_html, flags=re.IGNORECASE)
+                                                output5 = re.search(r'.*Choose.*', size_html, flags=re.IGNORECASE)
+                                                output6 = re.search(r'.*Empty.*', size_html, flags=re.IGNORECASE)
+                                                output7 = re.search(r'.*Select.*', size_html, flags=re.IGNORECASE)
+                                                output8 = re.search(r'.*storlek.*', size_html, flags=re.IGNORECASE)
                                                 if output is not None:
                                                     size_html = re.sub(r'\(.*\)', '', size_html, flags=re.IGNORECASE)
                                                 elif output2 is not None:
@@ -978,6 +999,14 @@ while jsonprods:
                                                     size_html = re.sub(r'\s+-\s+.*Stock.*', '', size_html, flags=re.IGNORECASE)
                                                 elif output4 is not None:
                                                     size_html = re.sub(r'.*Size\s+', '', size_html, flags=re.IGNORECASE)
+                                                elif output5 is not None:
+                                                    size_html = re.sub(r'.*Choose.*', '', size_html, flags=re.IGNORECASE)
+                                                elif output6 is not None:
+                                                    size_html = re.sub(r'.*Empty.*', '', size_html, flags=re.IGNORECASE)
+                                                elif output7 is not None:
+                                                    size_html = re.sub(r'.*Select.*', '', size_html, flags=re.IGNORECASE)
+                                                elif output8 is not None:
+                                                    size_html = re.sub(r'.*storlek.*', '', size_html, flags=re.IGNORECASE)
                                                 if size_html.upper().find(term_name.upper()) != -1:
                                                     term = doesprodattrexist(jsonprodattr['pa_size'], sizeterm['term_id'], 'pa_size')
                                                     if term:
@@ -1011,6 +1040,10 @@ while jsonprods:
                                             for catterm in caties:
                                                 term_name = catterm['name']
                                                 cat_html = str(productmisc_array[i])
+                                                if translate_pa_category_html != '':
+                                                    langs_to_trnsl = translate_pa_category_html.split(',')
+                                                    translator = Translator(to_lang=langs_to_trnsl[0], from_lang=langs_to_trnsl[1])
+                                                    cat_html = translator.translate(cat_html)
                                                 array_categorymaps = jsoncatmaps
                                                 #print(type(cat_html))
                                                 #print(type(term_name))
