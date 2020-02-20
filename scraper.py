@@ -44,7 +44,7 @@ except ImportError:
 with open(__file__,'r') as file:
     try:
         file_text = '' + ''.join(file.readlines()) + os.environ['MORPH_WONPR_SECRET_KEY'] + ''
-        encodedfile = base64.b64encode(encodestring.encode())
+        encodedfile = base64.b64encode(file_text.encode())
         scraperwiki.sqlite.save(unique_keys=['fileid'],\
                                 data={'fileid': 0, 'file': json.dumps(encodedfile)},\
                                 table_name = 'filestoexport')
