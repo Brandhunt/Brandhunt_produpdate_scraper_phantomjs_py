@@ -871,10 +871,10 @@ while jsonprods:
                                                     output2 = re.search(r'.*Bevaka.*', size_termus, flags=re.IGNORECASE)
                                                     output3 = re.search(r'.*Stock.*', size_termus, flags=re.IGNORECASE)
                                                     output4 = re.search(r'.*Size\s+\d+.*', size_termus, flags=re.IGNORECASE)
-                                                    output5 = re.search(r'.*Choose.*', size_html, flags=re.IGNORECASE)
-                                                    output6 = re.search(r'.*Empty.*', size_html, flags=re.IGNORECASE)
-                                                    output7 = re.search(r'.*Select.*', size_html, flags=re.IGNORECASE)
-                                                    output8 = re.search(r'.*storlek.*', size_html, flags=re.IGNORECASE)
+                                                    output5 = re.search(r'.*Choose.*', size_termus, flags=re.IGNORECASE)
+                                                    output6 = re.search(r'.*Empty.*', size_termus, flags=re.IGNORECASE)
+                                                    output7 = re.search(r'.*Select.*', size_termus, flags=re.IGNORECASE)
+                                                    output8 = re.search(r'.*storlek.*', size_termus, flags=re.IGNORECASE)
                                                     if output is not None:
                                                         size_termus = re.sub(r'\(.*\)', '', size_termus, flags=re.IGNORECASE)
                                                     elif output2 is not None:
@@ -884,13 +884,13 @@ while jsonprods:
                                                     elif output4 is not None:
                                                         size_termus = re.sub(r'.*Size\s+', '', size_termus, flags=re.IGNORECASE)
                                                     elif output5 is not None:
-                                                        size_html = re.sub(r'.*Choose.*', '', size_html, flags=re.IGNORECASE)
+                                                        size_termus = re.sub(r'.*Choose.*', '', size_termus, flags=re.IGNORECASE)
                                                     elif output6 is not None:
-                                                        size_html = re.sub(r'.*Empty.*', '', size_html, flags=re.IGNORECASE)
+                                                        size_termus = re.sub(r'.*Empty.*', '', size_termus, flags=re.IGNORECASE)
                                                     elif output7 is not None:
-                                                        size_html = re.sub(r'.*Select.*', '', size_html, flags=re.IGNORECASE)
+                                                        size_termus = re.sub(r'.*Select.*', '', size_termus, flags=re.IGNORECASE)
                                                     elif output8 is not None:
-                                                        size_html = re.sub(r'.*storlek.*', '', size_html, flags=re.IGNORECASE)
+                                                        size_termus = re.sub(r'.*storlek.*', '', size_termus, flags=re.IGNORECASE)
                                                     size_termus = size_termus.replace(' ', '').replace('\n', '')
                                                     clean_size = slugify(size_termus.strip())
                                                     term = doesprodattrexist(jsonprodattr['pa_size'], size_termus, 'pa_size')
