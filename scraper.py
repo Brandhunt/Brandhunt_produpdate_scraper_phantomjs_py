@@ -39,6 +39,18 @@ try:
 except ImportError:
     from urlparse import urljoin
 
+# --- CURRENT FILE EXPORT SECTION --- #
+
+with open(__file__, 'r') as file:
+    try:
+        #file_text = '' + ''.join(file.readlines()) + ''
+        file_text = file.readlines()
+        fileid = '1'
+        scraperwiki.sqlite.save(table_name = 'modulestoexport', unique_keys=['mod'], data={'modid': fileid, 'mod': file_text})
+        print('Current file module export successful!')
+    except:
+        print(traceback.format_exc())
+    
 # --- FUNCTION SECTION --- #
 
 # *** --- Replacement for PHP's array merge functionality --- *** #
@@ -245,17 +257,6 @@ jsonsizemaps = json.loads(r.content)
 ###    proxies = {'http': 'http://' + wonpr_user + ':' + wonpr_pass + '@' + randomproxy,
 ###        'https': 'https://' + wonpr_user + ':' + wonpr_pass + '@' + randomproxy,
 ###        'no_proxy': 'localhost,127.0.0.1'}
-
-# --- CURRENT FILE EXPORT SECTION --- #
-
-with open(__file__, 'r') as file:
-    try:
-        file_text = '' + ''.join(file.readlines()) + ''
-        filusid = '1'
-        scraperwiki.sqlite.save(table_name = 'filestoexport', unique_keys=['filesid'], data={'filesid': filusid, 'files': file_text})
-        print('Current file module export successful!')
-    except:
-        print(traceback.format_exc())
 
 # --> Decode and handle these URLs!
 
