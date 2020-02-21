@@ -195,6 +195,7 @@ def mainfunc(maxlimit):
     token = base64.b64encode(encodestring.encode())
     headers = {'Authorization': 'Basic ' + token.decode('ascii')}
 
+    amount_processed = 0
     offset = int(os.environ['MORPH_START_OFFSET'])
     limit = 25
 
@@ -1707,7 +1708,9 @@ def mainfunc(maxlimit):
             if website['productmisc'] != '':
                 website['productmisc'] = orig_prodmisc
         offset = offset + limit
-        if offset < maxlimit or maxlimit == 0:
+        amount_processed = amount_processed + limit
+        #if offset < maxlimit or maxlimit == 0:
+        if amount_processed < maxlimit or maxlimit == 0:
             r = requests.get(wp_connectwp_url + str(offset) + '/' + str(limit) + '/', headers=headers)
             jsonprods = r.json()
             #print(str(offset) + ' products has been scraped so far!')
