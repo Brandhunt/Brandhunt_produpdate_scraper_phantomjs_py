@@ -41,11 +41,11 @@ except ImportError:
 
 # --- CURRENT FILE EXPORT SECTION --- #
 
-scraperwiki.sqlite.execute("drop table if exists modstoexport")
-scraperwiki.sqlite.execute("drop table if exists modulstoexport")
-scraperwiki.sqlite.execute("drop table if exists modulestoexport")
-scraperwiki.sqlite.execute("drop table if exists filustoexport")
-scraperwiki.sqlite.commit()
+#scraperwiki.sqlite.execute("drop table if exists modstoexport")
+#scraperwiki.sqlite.execute("drop table if exists modulstoexport")
+#scraperwiki.sqlite.execute("drop table if exists modulestoexport")
+#scraperwiki.sqlite.execute("drop table if exists filustoexport")
+#scraperwiki.sqlite.commit()
 
 with open(__file__, 'r') as file:
     try:
@@ -53,7 +53,7 @@ with open(__file__, 'r') as file:
         #file_text = json.dumps(file.readlines())
         ###file_id = '1'
         ###scraperwiki.sqlite.save(table_name = 'modstoexport', unique_keys=['modid'], data={'modid': file_id, 'mod': file_text})
-        file_text = '' + ''.join(file.readlines()) + ''
+        file_text = json.dumps(file.readlines())
         filusid = '1'
         scraperwiki.sqlite.save(table_name = 'filestoexport', unique_keys=['file_id'], data={'file_id': filusid, 'file_cont': file_text})
         print('Current file module export successful!')
