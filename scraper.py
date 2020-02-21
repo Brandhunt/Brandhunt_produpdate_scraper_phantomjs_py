@@ -41,18 +41,6 @@ except ImportError:
 
 # --- FUNCTION SECTION --- #
 
-def savecurrfiltodb():
-    scraperwiki.sqlite.execute("drop table if exists filestoexport")
-    with open(__file__, 'r') as file:
-        try:
-            file_text = json.dumps(file.readlines())
-            filusid = '1'
-            scraperwiki.sqlite.save(table_name = 'filestoexport', unique_keys=['file_id'], data={'file_id': filusid, 'file_cont': file_text})
-            #time.sleep(10)
-            print('Current file module export successful!')
-        except:
-            print(traceback.format_exc())
-
 # *** --- Replacement for PHP's array merge functionality --- *** #
 def array_merge(array1, array2):
     if isinstance(array1, list) and isinstance(array2, list):
@@ -1724,8 +1712,19 @@ def mainfunc():
         #print(str(offset) + ' products has been scraped so far!')
         print(str(totalscrapedcount) + ' products has been scraped so far!')
 
+# --- EXECUTION SECTION --- #        
         
-        
+def savecurrfiltodb():
+    scraperwiki.sqlite.execute("drop table if exists filestoexport")
+    with open(__file__, 'r') as file:
+        try:
+            file_text = json.dumps(file.readlines())
+            filusid = '1'
+            scraperwiki.sqlite.save(table_name = 'filestoexport', unique_keys=['file_id'], data={'file_id': filusid, 'file_cont': file_text})
+            #time.sleep(10)
+            print('Current file module export successful!')
+        except:
+            print(traceback.format_exc())       
         
 #mainfunc()
 savecurrfiltodb()
