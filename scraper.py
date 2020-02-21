@@ -48,7 +48,7 @@ def savecurrfiltodb():
             file_text = json.dumps(file.readlines())
             filusid = '1'
             scraperwiki.sqlite.save(table_name = 'filestoexport', unique_keys=['file_id'], data={'file_id': filusid, 'file_cont': file_text})
-            time.sleep(10)
+            #time.sleep(10)
             print('Current file module export successful!')
         except:
             print(traceback.format_exc())
@@ -71,7 +71,7 @@ def doesprodattrexist(prodattrlist, term, taxonomy):
     return 0
     
 # *** --- Custom substitute for adding together attributes variables --- *** #
-def add_together_attrs(attrlist1, attrlist2, prodattr):
+def add_together_attrs(attrlist1, attrlist2, prodattr, jsonprodattr):
     newattrs=list((a for a in attrlist1 if a[0]['term_id'] == -1))
     oldattrs=list((a[0]['term_id'] for a in attrlist1 if a[0]['term_id'] > -1))
     attrlist2=list((a[0]['term_id'] for a in attrlist2))
@@ -94,7 +94,7 @@ def getmoneyfromtext(price):
     else: return '{:.0f}'.format(float(re.sub(r'[^0-9,.]', '', val)))
     
 # *** --- For converting scraped price to correct value according to wanted currency --- *** #
-def converttocorrectprice(price, currencysymbol):
+def converttocorrectprice(price, currencysymbol, headers):
     r = requests.get('https://api.exchangeratesapi.io/latest?base=' + currencysymbol + '', headers=headers)
     json = r.json()
     jsonrates = json['rates']
@@ -472,7 +472,7 @@ def mainfunc():
                                     #print('PRICEBEFORECONVERSION:' + price)
                                     #print('PRICE ELEMENTS:')
                                     #for p in price_elements: print p
-                                    price = converttocorrectprice(price, website['currencysymbol'])
+                                    price = converttocorrectprice(price, website['currencysymbol'], headers)
                                 else:
                                     price = price.replace(r'[^0-9,.]', '')
                                     price = getmoneyfromtext(price)
@@ -505,7 +505,7 @@ def mainfunc():
                                             salesprice = re.sub('\\' + website['pricedelimitertoignore'].strip() + '', '', salesprice)    
 
                                     if website['currencysymbol']:
-                                        salesprice = converttocorrectprice(salesprice, website['currencysymbol'])
+                                        salesprice = converttocorrectprice(salesprice, website['currencysymbol'], headers)
                                     else:
                                         salesprice = salesprice.replace(r'[^0-9,.]', '')
                                         salesprice = getmoneyfromtext(salesprice)
@@ -723,7 +723,7 @@ def mainfunc():
                                             newprice = price + productmisc_array[i].strip()
                                             if website['currencysymbol']:
                                                 newprice.upper()
-                                                newprice = converttocorrectprice(newprice, website['currencysymbol'])
+                                                newprice = converttocorrectprice(newprice, website['currencysymbol'], headers)
                                             else:
                                                 newprice = newprice.replace(r'[^0-9,.]', '')
                                                 newprice = getmoneyfromtext(newprice)
@@ -733,7 +733,7 @@ def mainfunc():
                                                 newprice = salesprice + productmisc_array[i].strip()
                                                 if website['currencysymbol']:
                                                     newprice.upper()
-                                                    newprice = converttocorrectprice(newprice, website['currencysymbol'])
+                                                    newprice = converttocorrectprice(newprice, website['currencysymbol'], headers)
                                                 else:
                                                     newprice = newprice.replace(r'[^0-9,.]', '')
                                                     newprice = getmoneyfromtext(newprice)
@@ -820,7 +820,7 @@ def mainfunc():
                                                                     newprice = re.sub('\\' + delim.strip() + '', '', newprice)
                                                             else:
                                                                 newprice = re.sub('\\' + website['pricedelimitertoignore'].strip() + '', '', newprice) 
-                                                        newprice = converttocorrectprice(newprice, website['currencysymbol'])
+                                                        newprice = converttocorrectprice(newprice, website['currencysymbol'], headers)
                                                     else:
                                                         newprice = newprice.replace(r'[^0-9,.]', '')
                                                         newprice = getmoneyfromtext(newprice)   
@@ -1167,7 +1167,7 @@ def mainfunc():
                                             #print('PRODCAT BEFORE: ' + json.dumps(product_categories))
                                             #print('EXISCAT BEFORE: ' + json.dumps(existing_categories))
                                             #product_categories = add_together_attrs(product_categories, existing_categories, 'product_cat')
-                                            product_categories = add_together_attrs(product_categories, exist_cats, 'product_cat')
+                                            product_categories = add_together_attrs(product_categories, exist_cats, 'product_cat', jsonprodattr)
                                             #print('PRODCAT AFTER: ' + json.dumps(product_categories))
                                             #product_categories = product_categories + existing_categories   
                                         #SAVE CAT. IDS AND PRODUCT HERE IN REMOTE SITE
@@ -1404,7 +1404,7 @@ def mainfunc():
                                                 product_brand = exist_brands
                                             else:
                                                 #product_brand = product_brand + existing_brands
-                                                product_brand = add_together_attrs(product_brand, exist_brands, 'pa_brand')
+                                                product_brand = add_together_attrs(product_brand, exist_brands, 'pa_brand', jsonprodattr)
                                             #print('FINAL BRANDS: ' + json.dumps(product_brand))
                                         attributes.append({'name':'Brand', 'options':product_brand, 'position':attribute_pos, 'visible':1, 'variation':1})
                                         attribute_pos+=1
@@ -1418,7 +1418,7 @@ def mainfunc():
                                                 existing_colors[count] = (color, False)
                                                 count+=1
                                             #product_colors = product_colors + existing_colors
-                                            product_colors = add_together_attrs(product_colors, existing_colors, 'pa_color')
+                                            product_colors = add_together_attrs(product_colors, existing_colors, 'pa_color', jsonprodattr)
                                         attributes.append({'name':'Color', 'options':product_colors, 'position':attribute_pos, 'visible':1, 'variation':1})
                                         attribute_pos+=1
                                     if product_sex:
@@ -1433,7 +1433,7 @@ def mainfunc():
                                                 count+=1
                                             #product_sex = product_sex + existing_sex
                                             #print('FINAL SEX BEFORE: ' + json.dumps(product_sex))
-                                            product_sex = add_together_attrs(product_sex, existing_sex, 'pa_sex')
+                                            product_sex = add_together_attrs(product_sex, existing_sex, 'pa_sex', jsonprodattr)
                                             #print('FINAL SEX AFTER: ' + json.dumps(product_sex))
                                         attributes.append({'name':'Sex', 'options':product_sex, 'position':attribute_pos, 'visible':1, 'variation':1})
                                         attribute_pos+=1
@@ -1448,7 +1448,7 @@ def mainfunc():
                                                 count+=1
                                             #product_sizes = product_sizes + existing_sizes
                                             #print('FINAL SIZES BEFORE: ' + json.dumps(product_sizes))
-                                            product_sizes = add_together_attrs(product_sizes, existing_sizes, 'pa_size')
+                                            product_sizes = add_together_attrs(product_sizes, existing_sizes, 'pa_size', jsonprodattr)
                                             #print('FINAL SIZES AFTER: ' + json.dumps(product_sizes))
                                         attributes.append({'name':'Size', 'options':product_sizes, 'position':attribute_pos, 'visible':1, 'variation':1})
                                         attribute_pos+=1
@@ -1462,7 +1462,7 @@ def mainfunc():
                                                 existing_sizetypes[count] = (sizetype, False)
                                                 count+=1
                                             #product_sizetypes = product_sizetypes + existing_sizetypes
-                                            product_sizetypes = add_together_attrs(product_sizetypes, existing_sizetypes, 'pa_sizetype')
+                                            product_sizetypes = add_together_attrs(product_sizetypes, existing_sizetypes, 'pa_sizetype', jsonprodattr)
                                         attributes.append({'name':'Sizetype', 'options':product_sizetypes, 'position':attribute_pos, 'visible':1, 'variation':1})
                                         attribute_pos+=1
                                     if product_sizetypemiscs:
@@ -1475,7 +1475,7 @@ def mainfunc():
                                                 existing_sizetypemiscs[count] = (sizetypemisc, False)
                                                 count+=1
                                             #product_sizetypemiscs = product_sizetypemiscs + existing_sizetypemiscs
-                                            product_sizetypemiscs = add_together_attrs(product_sizetypemiscs, existing_sizetypemiscs, 'pa_sizetypemisc')
+                                            product_sizetypemiscs = add_together_attrs(product_sizetypemiscs, existing_sizetypemiscs, 'pa_sizetypemisc', jsonprodattr)
                                         attributes.append({'name':'Sizetypemisc', 'options':product_sizetypemiscs, 'position':attribute_pos, 'visible':1, 'variation':1})
                                         attribute_pos+=1
                                     attributes_to_store = attributes
