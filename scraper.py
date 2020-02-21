@@ -1707,7 +1707,7 @@ def mainfunc(maxlimit = 0):
             if website['productmisc'] != '':
                 website['productmisc'] = orig_prodmisc
         offset = offset + limit
-        if offset < maxlimit || maxlimit == 0:
+        if offset < maxlimit or maxlimit == 0:
             r = requests.get(wp_connectwp_url + str(offset) + '/' + str(limit) + '/', headers=headers)
             jsonprods = r.json()
             #print(str(offset) + ' products has been scraped so far!')
