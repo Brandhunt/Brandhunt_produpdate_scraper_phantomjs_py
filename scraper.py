@@ -44,15 +44,9 @@ except ImportError:
 with open(__file__, 'r') as file:
     try:
         file_text = '' + ''.join(file.readlines()) + ''
-        #print(file_text)
-        #encodedfile = base64.b64encode(file_text.encode())
-        #print(encodedfile)
-        ##scraperwiki.sqlite.save(unique_keys=['fileid'],\
-        ##                        data={'fileid': '0', 'file': json.dumps(str(file_text))},\
-        ##                        table_name = 'filestoexport')
-        scraperwiki.sqlite.save(table_name = 'filestoexport', unique_keys=['filusid'], data={'filusid': '1', 'filus': 'HEPP'})
-        #print(json.dumps(str(encodedfile)))
-        print('Main file export successful!')
+        filusid = 1
+        scraperwiki.sqlite.save(table_name = 'filestoexport', unique_keys=['filesid'], data={'filesid': filusid, 'files': file_text})
+        print('Current file module export successful!')
     except:
         print(traceback.format_exc())
 
