@@ -51,7 +51,7 @@ with open(__file__, 'r') as file:
         ##                        data={'fileid': '0', 'file': json.dumps(str(file_text))},\
         ##                        table_name = 'filestoexport')
         scraperwiki.sqlite.save(unique_keys=['fileid'],\
-                                data={'fileid': '0', 'file': 'HEPP',\
+                                data={'fileid': '1', 'file': 'HEPP',\
                                 table_name = 'filestoexport')
         #print(json.dumps(str(encodedfile)))
         print('Main file export successful!')
