@@ -47,6 +47,7 @@ with open(__file__, 'r') as file:
         file_text = json.dumps(file.readlines())
         filusid = '1'
         scraperwiki.sqlite.save(table_name = 'filestoexport', unique_keys=['file_id'], data={'file_id': filusid, 'file_cont': file_text})
+        time.sleep(10)
         print('Current file module export successful!')
     except:
         print(traceback.format_exc())
