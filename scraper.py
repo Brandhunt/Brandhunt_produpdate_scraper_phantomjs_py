@@ -166,102 +166,103 @@ def graburls(text, imageonly):
 # *** --- For converting relative URLs to absolute URLs --- *** #
 def reltoabs(relurl, baseurl):
     pass
-      
-# --> First, check if the database should be reset:
-
-#if bool(os.environ['MORPH_RESET_DB']):
-#    if scraperwiki.sql.select('* from data'):
-#        scraperwiki.sql.execute('DELETE FROM data')
-
-#from pathlib import Path
-#print("File      Path:", Path(__file__).absolute())
-#print("Directory Path:", Path().absolute())
-
-#import os
-#os.chmod('/usr/local/bin/chromedriver', 755)
-
-#optionuls = webdriver.ChromeOptions()
-#optionuls.add_argument('--headless')
-#optionuls.add_argument('--disable-dev-shm-usage')
-#optionuls.add_argument('--no-sandbox')
-#browsur = webdriver.Chrome(executable_path='/usr/local/bin/chromedriver',options=optionuls, service_args=["--verbose"])
-#browsur.set_window_size(1920, 1080)
-#browsur.get('https://www.nonspecificwebsite.com')
-
-# --> Connect to Wordpress Site via REST API and get all the proper URLs to be scraped!
-
-wp_username = os.environ['MORPH_WP_USERNAME']
-wp_password = os.environ['MORPH_WP_PASSWORD']
-wp_connectwp_url = os.environ['MORPH_WP_CONNECT_URL']
-wp_connectwp_url_2 = os.environ['MORPH_WP_CONNECT_URL_2']
-wp_connectwp_url_3 = os.environ['MORPH_WP_CONNECT_URL_3']
-wp_connectwp_url_4 = os.environ['MORPH_WP_CONNECT_URL_4']
-wp_connectwp_url_5 = os.environ['MORPH_WP_CONNECT_URL_5']
-wp_connectwp_url_6 = os.environ['MORPH_WP_CONNECT_URL_6']
-
-encodestring = wp_username + ':' + wp_password;
-#token = base64.standard_b64encode(wp_username + ':' + wp_password)
-token = base64.b64encode(encodestring.encode())
-headers = {'Authorization': 'Basic ' + token.decode('ascii')}
-
-offset = int(os.environ['MORPH_START_OFFSET'])
-limit = 25
-
-#r = requests.get(wp_connectwp_url, headers=headers)
-r = requests.get(wp_connectwp_url + str(offset) + '/' + str(limit) + '/', headers=headers)
-#jsonprods = r.json()
-jsonprods = json.loads(r.content)
-
-r = requests.get(wp_connectwp_url_2, headers=headers)
-jsonwebsites = json.loads(r.content)
-
-r = requests.get(wp_connectwp_url_3, headers=headers)
-jsonprodattr = json.loads(r.content)
-
-r = requests.get(wp_connectwp_url_4, headers=headers)
-jsoncatsizetypemaps = json.loads(r.content)
-
-r = requests.get(wp_connectwp_url_5, headers=headers)
-jsoncatmaps = json.loads(r.content)
-
-r = requests.get(wp_connectwp_url_6, headers=headers)
-jsonsizemaps = json.loads(r.content)
-
-# --> Get the proxy information and related modules!
-
-###wonpr_token = os.environ['MORPH_WONPR_API_TOKEN']
-###wonpr_url = os.environ['MORPH_WONPR_CONNECT_URL']
-###wonpr_secret_key = os.environ['MORPH_WONPR_SECRET_KEY']
-###wonpr_user = os.environ['MORPH_WONPR_USERNAME']
-###wonpr_pass = os.environ['MORPH_WONPR_PASSWORD']
-###
-###encodestring2 = wonpr_token + ':'
-###token2 = base64.b64encode(encodestring2.encode())
-###wonpr_headers = {'Authorization': 'Basic ' + token2.decode('ascii')}
-###
-###r = requests.get(wonpr_url, headers=wonpr_headers)
-###jsonproxies = json.loads(r.content)
-###finalproxies = []
-
-#print(jsonproxies)
-
-###for proxy in jsonproxies:
-###    if proxy['server'] == 'stockholm' or proxy['server'] == 'gothenburg':
-###        for ip in proxy['ips']:
-###            if ip['status'] == 'ok':
-###                finalproxies.append(proxy['hostname'] + ':1100' + str(ip['port_base']))
-###                break
-###                
-###proxies = []
-###if finalproxies:
-###    randomproxy = random.choice(finalproxies)
-###    proxies = {'http': 'http://' + wonpr_user + ':' + wonpr_pass + '@' + randomproxy,
-###        'https': 'https://' + wonpr_user + ':' + wonpr_pass + '@' + randomproxy,
-###        'no_proxy': 'localhost,127.0.0.1'}
 
 # --> Decode and handle these URLs!
 
 def mainfunc():
+    
+    # --> First, check if the database should be reset:
+
+    #if bool(os.environ['MORPH_RESET_DB']):
+    #    if scraperwiki.sql.select('* from data'):
+    #        scraperwiki.sql.execute('DELETE FROM data')
+
+    #from pathlib import Path
+    #print("File      Path:", Path(__file__).absolute())
+    #print("Directory Path:", Path().absolute())
+
+    #import os
+    #os.chmod('/usr/local/bin/chromedriver', 755)
+
+    #optionuls = webdriver.ChromeOptions()
+    #optionuls.add_argument('--headless')
+    #optionuls.add_argument('--disable-dev-shm-usage')
+    #optionuls.add_argument('--no-sandbox')
+    #browsur = webdriver.Chrome(executable_path='/usr/local/bin/chromedriver',options=optionuls, service_args=["--verbose"])
+    #browsur.set_window_size(1920, 1080)
+    #browsur.get('https://www.nonspecificwebsite.com')
+
+    # --> Connect to Wordpress Site via REST API and get all the proper URLs to be scraped!
+
+    wp_username = os.environ['MORPH_WP_USERNAME']
+    wp_password = os.environ['MORPH_WP_PASSWORD']
+    wp_connectwp_url = os.environ['MORPH_WP_CONNECT_URL']
+    wp_connectwp_url_2 = os.environ['MORPH_WP_CONNECT_URL_2']
+    wp_connectwp_url_3 = os.environ['MORPH_WP_CONNECT_URL_3']
+    wp_connectwp_url_4 = os.environ['MORPH_WP_CONNECT_URL_4']
+    wp_connectwp_url_5 = os.environ['MORPH_WP_CONNECT_URL_5']
+    wp_connectwp_url_6 = os.environ['MORPH_WP_CONNECT_URL_6']
+
+    encodestring = wp_username + ':' + wp_password;
+    #token = base64.standard_b64encode(wp_username + ':' + wp_password)
+    token = base64.b64encode(encodestring.encode())
+    headers = {'Authorization': 'Basic ' + token.decode('ascii')}
+
+    offset = int(os.environ['MORPH_START_OFFSET'])
+    limit = 25
+
+    #r = requests.get(wp_connectwp_url, headers=headers)
+    r = requests.get(wp_connectwp_url + str(offset) + '/' + str(limit) + '/', headers=headers)
+    #jsonprods = r.json()
+    jsonprods = json.loads(r.content)
+
+    r = requests.get(wp_connectwp_url_2, headers=headers)
+    jsonwebsites = json.loads(r.content)
+
+    r = requests.get(wp_connectwp_url_3, headers=headers)
+    jsonprodattr = json.loads(r.content)
+
+    r = requests.get(wp_connectwp_url_4, headers=headers)
+    jsoncatsizetypemaps = json.loads(r.content)
+
+    r = requests.get(wp_connectwp_url_5, headers=headers)
+    jsoncatmaps = json.loads(r.content)
+
+    r = requests.get(wp_connectwp_url_6, headers=headers)
+    jsonsizemaps = json.loads(r.content)
+
+    # --> Get the proxy information and related modules!
+
+    ###wonpr_token = os.environ['MORPH_WONPR_API_TOKEN']
+    ###wonpr_url = os.environ['MORPH_WONPR_CONNECT_URL']
+    ###wonpr_secret_key = os.environ['MORPH_WONPR_SECRET_KEY']
+    ###wonpr_user = os.environ['MORPH_WONPR_USERNAME']
+    ###wonpr_pass = os.environ['MORPH_WONPR_PASSWORD']
+    ###
+    ###encodestring2 = wonpr_token + ':'
+    ###token2 = base64.b64encode(encodestring2.encode())
+    ###wonpr_headers = {'Authorization': 'Basic ' + token2.decode('ascii')}
+    ###
+    ###r = requests.get(wonpr_url, headers=wonpr_headers)
+    ###jsonproxies = json.loads(r.content)
+    ###finalproxies = []
+
+    #print(jsonproxies)
+
+    ###for proxy in jsonproxies:
+    ###    if proxy['server'] == 'stockholm' or proxy['server'] == 'gothenburg':
+    ###        for ip in proxy['ips']:
+    ###            if ip['status'] == 'ok':
+    ###                finalproxies.append(proxy['hostname'] + ':1100' + str(ip['port_base']))
+    ###                break
+    ###                
+    ###proxies = []
+    ###if finalproxies:
+    ###    randomproxy = random.choice(finalproxies)
+    ###    proxies = {'http': 'http://' + wonpr_user + ':' + wonpr_pass + '@' + randomproxy,
+    ###        'https': 'https://' + wonpr_user + ':' + wonpr_pass + '@' + randomproxy,
+    ###        'no_proxy': 'localhost,127.0.0.1'}
+    
     #arraus = []
     totalscrapedcount = 0
     while jsonprods:
