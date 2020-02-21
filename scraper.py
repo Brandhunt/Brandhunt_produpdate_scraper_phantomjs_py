@@ -1728,4 +1728,4 @@ def savecurrfiltodb():
         
 #mainfunc()
 savecurrfiltodb()
-
+#EOF
