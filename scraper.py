@@ -156,7 +156,7 @@ def reltoabs(relurl, baseurl):
 
 # --> Decode and handle these URLs!
 
-def mainfunc():
+def mainfunc(maxlimit = 0):
     
     # --> First, check if the database should be reset:
 
@@ -1707,10 +1707,13 @@ def mainfunc():
             if website['productmisc'] != '':
                 website['productmisc'] = orig_prodmisc
         offset = offset + limit
-        r = requests.get(wp_connectwp_url + str(offset) + '/' + str(limit) + '/', headers=headers)
-        jsonprods = r.json()
-        #print(str(offset) + ' products has been scraped so far!')
-        print(str(totalscrapedcount) + ' products has been scraped so far!')
+        if offset < maxlimit || maxlimit == 0:
+            r = requests.get(wp_connectwp_url + str(offset) + '/' + str(limit) + '/', headers=headers)
+            jsonprods = r.json()
+            #print(str(offset) + ' products has been scraped so far!')
+            print(str(totalscrapedcount) + ' products has been scraped so far!')
+        else:
+            jsonprods = None
 
 # --- EXECUTION SECTION --- #        
         
