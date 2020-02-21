@@ -41,10 +41,12 @@ except ImportError:
 
 # --- CURRENT FILE EXPORT SECTION --- #
 
-scraperwiki.sql.execute('DROP modstoexport IF EXISTS;')
-scraperwiki.sql.execute('DROP modulstoexport IF EXISTS;')
-scraperwiki.sql.execute('DROP modulestoexport IF EXISTS;')
-scraperwiki.sql.execute('DROP filustoexport IF EXISTS;')
+scraperwiki.sqlite.execute("drop table if exists modstoexport")
+scraperwiki.sqlite.execute("drop table if exists modulstoexport")
+scraperwiki.sqlite.execute("drop table if exists modulestoexport")
+scraperwiki.sqlite.execute("drop table if exists filustoexport")
+scraperwiki.sqlite.commit()
+
 with open(__file__, 'r') as file:
     try:
         ###file_text = '' + ''.join(file.readlines()) + ''
