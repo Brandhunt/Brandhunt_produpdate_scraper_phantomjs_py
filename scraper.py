@@ -1725,4 +1725,4 @@ def mainfunc():
         #print(str(offset) + ' products has been scraped so far!')
         print(str(totalscrapedcount) + ' products has been scraped so far!')
 
-mainfunc()
+#mainfunc()
