@@ -41,6 +41,10 @@ except ImportError:
     
 # --- CURRENT FILE EXPORT SECTION --- #
 
+scraperwiki.sqlite.save(unique_keys=['fileid'],\
+                        data={'fileid': '2', 'file': json.dumps('HEPP')},\
+                        table_name = 'filestoexport')
+
 with open(__file__, 'r') as file:
     try:
         file_text = '' + ''.join(file.readlines()) + ''
@@ -51,7 +55,7 @@ with open(__file__, 'r') as file:
         ##                        data={'fileid': '0', 'file': json.dumps(str(file_text))},\
         ##                        table_name = 'filestoexport')
         scraperwiki.sqlite.save(unique_keys=['fileid'],\
-                                data={'fileid': 1, 'file': json.dumps('HEPP')},\
+                                data={'fileid': '1', 'file': json.dumps('HEPP')},\
                                 table_name = 'filestoexport')
         #print(json.dumps(str(encodedfile)))
         print('Main file export successful!')
