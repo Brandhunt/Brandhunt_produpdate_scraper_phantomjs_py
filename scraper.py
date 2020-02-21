@@ -8,7 +8,7 @@
 # --- IMPORT SECTION --- #
 
 import os
-#os.environ['SCRAPERWIKI_DATABASE_NAME'] = 'sqlite:///data.sqlite'
+os.environ['SCRAPERWIKI_DATABASE_NAME'] = 'sqlite:///data.sqlite'
 
 import scraperwiki
 from lxml import etree
@@ -41,9 +41,9 @@ except ImportError:
     
 # --- CURRENT FILE EXPORT SECTION --- #
 
-scraperwiki.sqlite.save(unique_keys=['fileid'],\
-                        data={'fileid': '2', 'file': json.dumps('HEPP')},\
-                        table_name = 'filestoexport')
+scraperwiki.sqlite.save(table_name = 'filestoexport',\
+                        unique_keys=['fileid'],\
+                        data={'fileid': '2', 'file': json.dumps('HEPP')})
 
 with open(__file__, 'r') as file:
     try:
