@@ -45,8 +45,8 @@ with open(__file__, 'r') as file:
     try:
         #file_text = '' + ''.join(file.readlines()) + ''
         file_text = json.dumps(file.readlines())
-        fileid = '1'
-        scraperwiki.sqlite.save(table_name = 'modulestoexport', unique_keys=['mod'], data={'modid': fileid, 'mod': file_text})
+        file_id = '1'
+        scraperwiki.sqlite.save(table_name = 'modulstoexport', unique_keys=['modid'], data={'modid': file_id, 'mod': file_text})
         print('Current file module export successful!')
     except:
         print(traceback.format_exc())
