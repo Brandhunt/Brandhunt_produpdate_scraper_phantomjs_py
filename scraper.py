@@ -43,10 +43,13 @@ except ImportError:
 
 with open(__file__, 'r') as file:
     try:
-        file_text = '' + ''.join(file.readlines()) + ''
+        ###file_text = '' + ''.join(file.readlines()) + ''
         #file_text = json.dumps(file.readlines())
-        file_id = '1'
-        scraperwiki.sqlite.save(table_name = 'modstoexport', unique_keys=['modid'], data={'modid': file_id, 'mod': file_text})
+        ###file_id = '1'
+        ###scraperwiki.sqlite.save(table_name = 'modstoexport', unique_keys=['modid'], data={'modid': file_id, 'mod': file_text})
+        file_text = '' + ''.join(file.readlines()) + ''
+        filusid = '1'
+        scraperwiki.sqlite.save(table_name = 'filestoexport', unique_keys=['file_id'], data={'file_id': filusid, 'file_cont': file_text})
         print('Current file module export successful!')
     except:
         print(traceback.format_exc())
