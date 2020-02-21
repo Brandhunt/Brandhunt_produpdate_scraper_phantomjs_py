@@ -156,7 +156,7 @@ def reltoabs(relurl, baseurl):
 
 # --> Decode and handle these URLs!
 
-def mainfunc(maxlimit = 0):
+def mainfunc(maxlimit):
     
     # --> First, check if the database should be reset:
 
@@ -1729,6 +1729,6 @@ def savecurrfiltodb():
         except:
             print(traceback.format_exc())       
         
-mainfunc()
+#mainfunc(0)
 savecurrfiltodb()
 #EOF
