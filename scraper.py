@@ -1726,6 +1726,6 @@ def savecurrfiltodb():
         except:
             print(traceback.format_exc())       
         
-#mainfunc()
+mainfunc()
 savecurrfiltodb()
 #EOF
