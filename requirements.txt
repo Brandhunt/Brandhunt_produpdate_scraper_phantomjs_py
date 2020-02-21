@@ -15,4 +15,4 @@ splinter~=0.10.0
 lxml~=4.3.3
 cssselect~=1.0.0
 #pycrypto>=2.6.1 
-cryptography>=2.8
+#cryptography>=2.8
