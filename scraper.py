@@ -416,7 +416,7 @@ def mainfunc(maxlimit):
                                 except:
                                     #print("Error when scraping URL for product ID " + product['productid'] + ": " + str(sys.exc_info()[0]) + " occured!")
                                     print(traceback.format_exc())
-                            # # # # # print("Currently scraping product with ID " + str(product['productid'])) # # # # #
+                            print("Currently scraping product with ID " + str(product['productid']))
                             # >>> GET THE HTML ROOT <<< #
                             root = lxml.html.fromstring(html_source)
                             # >>> GET THE PRICE <<< #
@@ -1714,7 +1714,7 @@ def mainfunc(maxlimit):
             r = requests.get(wp_connectwp_url + str(offset) + '/' + str(limit) + '/', headers=headers)
             jsonprods = r.json()
             #print(str(offset) + ' products has been scraped so far!')
-            print(str(totalscrapedcount) + ' products has been scraped so far!')
+            #print(str(totalscrapedcount) + ' products has been scraped so far!')
         else:
             jsonprods = None
 
