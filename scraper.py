@@ -1336,7 +1336,7 @@ def mainfunc(maxlimit):
                                                         for sizetomap in split_sizetomaps.copy():
                                                             found_sizenames = list(filter(lambda x: x[0]['name'].strip().lower() == sizetomap.strip().lower(), product_sizes))
                                                             if found_sizenames:
-                                                                finalterm = doesprodattrexist(jsonprodattr['product_cat'], sizemap['finalsize'].strip(), 'product_cat')
+                                                                finalterm = doesprodattrexist(jsonprodattr['pa_size'], sizemap['finalsize'].strip(), 'pa_size')
                                                                 if finalterm != 0:
                                                                     product_sizes.append((finalterm, False))
                                                                 else:
