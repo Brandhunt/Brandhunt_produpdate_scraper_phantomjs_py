@@ -1430,10 +1430,12 @@ def mainfunc(maxlimit):
                                                         #found_sizenames = list(filter(lambda x: re.search(x[0]['name'], sizemap['sizestomap']), product_sizes))
                                                         #for prod_size in product_sizes:
                                                         #    found_sizenames = list(filter(lambda x: prod_size[0]['name'] == x, sizemap['sizestomap']))
+                                                        enforce_mandatory_sizes = True
                                                         split_sizetomaps = sizemap['sizestomap'].split(';')
                                                         for sizetomap in split_sizetomaps.copy():
                                                             found_sizenames = list(filter(lambda x: x[0]['name'].strip().lower() == sizetomap.strip().lower(), product_sizes))
                                                             if found_sizenames:
+                                                                enforce_mandatory_sizes = False
                                                                 finalterm = doesprodattrexist(jsonprodattr['pa_size'], sizemap['finalsize'].strip(), 'pa_size')
                                                                 if finalterm != 0:
                                                                     product_sizes.append((finalterm, False))
@@ -1448,11 +1450,12 @@ def mainfunc(maxlimit):
                                                                     product_sizes = list(filter(lambda x: x[0]['name'].strip().lower() != size_to_remove, product_sizes))
                                                                 #print(json.dumps(product_sizes))
                                                                 break
-                                                        # --> Do we need to add any mandatory sizes depending on sizetype?(Only added if no sizes exists for product!)
-                                                        if len(mandatory_sizes) > 0 and len(product_sizes) == 0:
+                                                        # --> Do we need to add any mandatory sizes depending on sizetype?
+                                                        if len(mandatory_sizes) > 0 and (len(product_sizes) == 0 or enforce_mandatory_sizes == True):
                                                             for mandsize in mandatory_sizes:
                                                                 if mandsize[0] != '' and mandsize[1] != '':
                                                                     if sizetype[0]['name'] == mandsize[1].strip():
+                                                                        product_sizes = []
                                                                         for size in mandsize[0]:
                                                                             new_size_term = doesprodattrexist(jsonprodattr['pa_size'], size.strip(), 'pa_size')
                                                                             if new_size_term != 0:
