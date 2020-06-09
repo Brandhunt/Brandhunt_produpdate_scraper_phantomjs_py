@@ -1459,22 +1459,27 @@ def mainfunc(maxlimit):
                                                                                     continue_count = False
                                                                         if size_hand_opt[0] in range(6, 9):
                                                                             split_char = size_hand_opt[2].strip() if size_hand_opt[2] else '/'
-                                                                            newsizes = size[0]['name'].split(split_char)
-                                                                            if len(newsizes) > 1:
-                                                                                if size_hand_opt[0] == 7:
-                                                                                    removed_size = newsizes.pop()
-                                                                                elif size_hand_opt[0] == 8:
-                                                                                    removed_size = newsizes.pop(0)
-                                                                                for newsize in newsizes:
-                                                                                    new_size_term = doesprodattrexist(jsonprodattr['pa_size'], newsize.strip(), 'pa_size')
-                                                                                    if new_size_term != 0:
-                                                                                        product_sizes.append((new_size_term, False))
-                                                                                    else:
-                                                                                        newsizename = newsize.strip()
-                                                                                        newsizeslug = slugify(newsizename.strip())
-                                                                                        new_size_term = {'term_id':-1, 'name':newsizename, 'slug':newsizeslug, 'taxonomy':'pa_size'}
-                                                                                        product_sizes.append((new_size_term, True))
-                                                                                    continue_count = False
+                                                                            continue_split = True
+                                                                            if split_char.strip() == 'x':
+                                                                                if not re.search(r'.*\d+.*x.*\d+.*', size[0]['name']):
+                                                                                    continue_split = False
+                                                                            if continue_split == True:
+                                                                                newsizes = size[0]['name'].split(split_char)
+                                                                                if len(newsizes) > 1:
+                                                                                    if size_hand_opt[0] == 7:
+                                                                                        removed_size = newsizes.pop()
+                                                                                    elif size_hand_opt[0] == 8:
+                                                                                        removed_size = newsizes.pop(0)
+                                                                                    for newsize in newsizes:
+                                                                                        new_size_term = doesprodattrexist(jsonprodattr['pa_size'], newsize.strip(), 'pa_size')
+                                                                                        if new_size_term != 0:
+                                                                                            product_sizes.append((new_size_term, False))
+                                                                                        else:
+                                                                                            newsizename = newsize.strip()
+                                                                                            newsizeslug = slugify(newsizename.strip())
+                                                                                            new_size_term = {'term_id':-1, 'name':newsizename, 'slug':newsizeslug, 'taxonomy':'pa_size'}
+                                                                                            product_sizes.append((new_size_term, True))
+                                                                                        continue_count = False
                                                                         if continue_count == True:
                                                                             count += 1
                                                                     sizemap['sizestomap'] = ';'.join(split_sizetomaps)
