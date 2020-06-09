@@ -189,6 +189,7 @@ def mainfunc(maxlimit):
     wp_connectwp_url_4 = os.environ['MORPH_WP_CONNECT_URL_4']
     wp_connectwp_url_5 = os.environ['MORPH_WP_CONNECT_URL_5']
     wp_connectwp_url_6 = os.environ['MORPH_WP_CONNECT_URL_6']
+    wp_connectwp_url_7 = os.environ['MORPH_WP_CONNECT_URL_7']
 
     encodestring = wp_username + ':' + wp_password;
     #token = base64.standard_b64encode(wp_username + ':' + wp_password)
@@ -218,6 +219,9 @@ def mainfunc(maxlimit):
 
     r = requests.get(wp_connectwp_url_6, headers=headers)
     jsonsizemaps = json.loads(r.content)
+    
+    r = requests.get(wp_connectwp_url_7, headers=headers)
+    jsonprodfixes = json.loads(r.content)
 
     # --> Get the proxy information and related modules!
 
@@ -1118,6 +1122,18 @@ def mainfunc(maxlimit):
                                                     else:
                                                         product_categories = array_merge(product_categories, caties_result)
                                                 #print('PA_CAT_HTML_CATS: '+json.dumps(product_categories))
+                                                # --> Check if any product fixes should be applied for category HTML check!
+                                            if jsonprodfixes:
+                                                cat_prodfix_regex_list = [[re.sub('\{regex_in_pa_category_html\}', '', i['selectionfield']),\
+                                                                           i['actionfield']] for i in jsonprodfixes if 'regex_in_pa_category_html' in i['selectionfield']]
+                                                cat_html = str(productmisc_array[i])
+                                                for fix in cat_prodfix_regex_list:
+                                                    if re.search(fix[0], cat_html, flags=re.IGNORECASE):
+                                                        if re.search('{remove_category}', fix[1], flags=re.IGNORECASE):
+                                                            cats_to_remove = re.sub('\{remove_category\}', '', fix[1]).split(',')
+                                                            for cat_remove in cats_to_remove:
+                                                                product_categories = list(filter(lambda x: re.search(cat_remove, x[0]['name'],\
+                                                                                                                     flags=re.IGNORECASE), product_categories))
                                             # --- Get color attributes from current scrape --- #
                                             if productmisc_array[(i-1)] == 'pa_color_html':
                                                 colories = jsonprodattr['pa_color']
