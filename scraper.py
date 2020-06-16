@@ -79,6 +79,7 @@ def add_together_attrs(attrlist1, attrlist2, prodattr, jsonprodattr):
 def getmoneyfromtext(price):
     val = re.sub(r'\.(?=.*\.)', '', price.replace(',', '.'))
     if not val: return val
+    if not re.match('[0-9]', val): return ''
     else: return '{:.0f}'.format(float(re.sub(r'[^0-9,.]', '', val)))
     
 # *** --- For converting scraped price to correct value according to wanted currency --- *** #
