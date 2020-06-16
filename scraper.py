@@ -1212,6 +1212,129 @@ def mainfunc(maxlimit):
                                         if productmisc_array[(i-1)] == 'skip_first_size':
                                             if product_sizes != '':
                                                 removed_size = product_sizes.pop(0)
+                                    # >>> CHECK FOR PRODUCT PROPERITES IN TITLE(IF ENABLED) <<< #
+                                    if website['lookforprodpropintitle'] == '1':
+                                        try:
+                                            termies = [[], [], []]
+                                            termies[0] = jsonprodattr['pa_brand']
+                                            termies[1] = jsonprodattr['pa_color']
+                                            termies[2] = jsonprodattr['pa_sex']
+                                            termies_result = [[], [], []]
+                                            for i in range(3):
+                                                for term in termies[i]:
+                                                    term_name = term['name']
+                                                    product_name = product['name']
+                                                    if product_name.upper().find(term_name.upper()) != -1:
+                                                        termies_result[i].append((doesprodattrexist(jsonprodattr[term['taxonomy']], term['term_id'], term['taxonomy']), False))
+                                            if termies_result[0] and skip_exist_attr_prodtitle[0] != 1:
+                                                brand_values = product_brand
+                                                skip_domain_name = False
+                                                if website['productmisc']:
+                                                    output = re.search(r'(skip_domainbrand_if_found)', website['productmisc'])
+                                                    if output is not None and len(output.group(0)) > 0:
+                                                        skip_domain_name = True
+                                                if brand_values:
+                                                    #existing_brands = re.split(',\s*', brand_values)
+                                                    existing_brands = brand_values
+                                                    ###count = 0
+                                                    ###for brand in existing_brands:
+                                                    ###    existing_brands[count] = (brand, False)
+                                                    ###    count+=1
+                                                    termies_result[0] = array_merge(termies_result[0], existing_brands)
+                                                    if skip_domain_name and domain_name != '' and len(termies_result[0]) > 1:
+                                                        termies_result[0] = list(filter(lambda x: x[0]['name'].upper().find(domain_name.upper()) == -1, termies_result[0]))
+                                                product_brand = termies_result[0]
+                                            if termies_result[1] and skip_exist_attr_prodtitle[1] != 1:
+                                                color_values = product_colors
+                                                if color_values:
+                                                    #existing_colors = re.split(',\s*', color_values)
+                                                    existing_colors = color_values
+                                                    ###count = 0
+                                                    ###for color in existing_colors:
+                                                    ###    existing_colors[count] = (color, False)
+                                                    ###    count+=1
+                                                    termies_result[1] = array_merge(termies_result[1], existing_colors)
+                                                product_colors = termies_result[1]
+                                            if termies_result[2] and skip_exist_attr_prodtitle[2] != 1:
+                                                sex_values = product_sex
+                                                if sex_values:
+                                                    #existing_sex = re.split(',\s*', sex_values)
+                                                    existing_sex = sex_values
+                                                    ###count = 0
+                                                    ###for sex in existing_sex:
+                                                    ###    existing_sex[count] = (sex, False)
+                                                    ###    count+=1
+                                                    termies_result[2] = array_merge(termies_result[2], existing_sex)
+                                                product_sex = termies_result[2]
+                                            # --> Look after categories in the product title!
+                                            category_terms = jsonprodattr['product_cat']
+                                            category_result = []
+                                            for term in category_terms:
+                                                term_name = term['name']
+                                                product_name = product['name']
+                                                array_categorymaps = jsoncatmaps
+                                                if array_categorymaps:
+                                                    if term_name in array_categorymaps:
+                                                        infliction_array = jsoncatmaps[term_name]['catinflections'].split(',')
+                                                        for infliction in infliction_array:
+                                                            if no_whitespace_prodtitleregex is True:
+                                                                regex = ''+infliction.strip()+''
+                                                            else:
+                                                                regex = '\s'+infliction.strip()+'\s'
+                                                            if re.search(regex, product_name, flags=re.IGNORECASE):
+                                                                term = doesprodattrexist(jsonprodattr['product_cat'], term['term_id'], 'product_cat')
+                                                                if term:
+                                                                    if not list(filter(lambda x: x[0]['term_id'] == term['term_id'], category_result)):
+                                                                        category_result.append((term, False))
+                                                                        cat_parents = term['ancestors']
+                                                                        for parent_id in cat_parents:
+                                                                            parent = doesprodattrexist(jsonprodattr['product_cat'], parent_id, 'product_cat')
+                                                                            if not list(filter(lambda x: x[0]['term_id'] == parent['term_id'], category_result)):
+                                                                                category_result.append((parent, False))
+                                                if no_whitespace_prodtitleregex is True:
+                                                    regex = ''+term_name.strip()+''
+                                                else:
+                                                    regex = '\s'+term_name.strip()+'\s'
+                                                if re.search(regex, product_name, flags=re.IGNORECASE):
+                                                    term = doesprodattrexist(jsonprodattr['product_cat'], term['term_id'], 'product_cat')
+                                                    if term:
+                                                        if not list(filter(lambda x: x[0]['term_id'] == term['term_id'], category_result)):
+                                                            category_result.append((term, False))
+                                                            cat_parents = term['ancestors']
+                                                            for parent_id in cat_parents:
+                                                                parent = doesprodattrexist(jsonprodattr['product_cat'], parent_id, 'product_cat')
+                                                                if not list(filter(lambda x: x[0]['term_id'] == parent['term_id'], category_result)):
+                                                                    category_result.append((parent, False))
+                                            if category_result:
+                                                existing_categories = product['category_ids'].copy()
+                                                exist_cats = []
+                                                #print(json.dumps(existing_categories))
+                                                if existing_categories and skip_exist_attr_prodtitle[3] != 1:
+                                                    #count = 0
+                                                    for cat in existing_categories.copy():
+                                                        term = doesprodattrexist(jsonprodattr['product_cat'], cat, 'product_cat')
+                                                        #print(json.dumps(term))
+                                                        #print(cat)
+                                                        if (term['slug'] == 'uncategorized' and len(category_result) > 0)\
+                                                        or list(filter(lambda x: x[0]['term_id'] == term['term_id'], category_result)):
+                                                            #del existing_categories[count]
+                                                            continue
+                                                        #existing_categories[count] = ((term, False))
+                                                        exist_cats.append((term, False))
+                                                        #count+=1 
+                                                    category_result = array_merge(category_result, exist_cats)
+                                                #print('PRODCATSFINAL_PRODTITLE: ' + json.dumps(product_categories))
+                                                #print('CATRESULTS_PRODTITLE: ' + json.dumps(category_result))
+                                                if product_categories != '':
+                                                    #product_categories = array_merge(product_categories, category_result)
+                                                    for result in category_result:
+                                                        if not list(filter(lambda x: x[0]['term_id'] == result[0]['term_id'], product_categories)):
+                                                            product_categories.append(result)
+                                                else:
+                                                    product_categories = category_result
+                                        except:
+                                            #print("Error when looking after prod. properties in title for product ID " + product['productid'] + ": " + sys.exc_info()[0] + " occured!")
+                                            print(traceback.format_exc())            
                                     # --> Fix sex for the product if it doesn't exist already! <-- #
                                     if product_sex == '':
                                         product_sex = [(doesprodattrexist(jsonprodattr['pa_sex'], 'Male', 'pa_sex'), False),
@@ -1676,195 +1799,6 @@ def mainfunc(maxlimit):
                                     #pass
                                 except:
                                     #print("Error when scraping misc. product information for product ID " + product['productid'] + ": " + sys.exc_info()[0] + " occured!")
-                                    print(traceback.format_exc())
-                            # >>> CHECK FOR PRODUCT PROPERITES IN TITLE(IF ENABLED) <<< #
-                            if website['lookforprodpropintitle'] == '1':
-                                try:
-                                    termies = [[], [], []]
-                                    termies[0] = jsonprodattr['pa_brand']
-                                    termies[1] = jsonprodattr['pa_color']
-                                    termies[2] = jsonprodattr['pa_sex']
-                                    termies_result = [[], [], []]
-                                    for i in range(3):
-                                        for term in termies[i]:
-                                            term_name = term['name']
-                                            product_name = product['name']
-                                            if product_name.upper().find(term_name.upper()) != -1:
-                                                termies_result[i].append((doesprodattrexist(jsonprodattr[term['taxonomy']], term['term_id'], term['taxonomy']), False))
-                                    attributes = []
-                                    attribute_pos = 1
-                                    if termies_result[0] and skip_exist_attr_prodtitle[0] != 1:
-                                        brand_values = product_brand
-                                        skip_domain_name = False
-                                        if website['productmisc']:
-                                            output = re.search(r'(skip_domainbrand_if_found)', website['productmisc'])
-                                            if output is not None and len(output.group(0)) > 0:
-                                                skip_domain_name = True
-                                        if brand_values:
-                                            #existing_brands = re.split(',\s*', brand_values)
-                                            existing_brands = brand_values
-                                            ###count = 0
-                                            ###for brand in existing_brands:
-                                            ###    existing_brands[count] = (brand, False)
-                                            ###    count+=1
-                                            termies_result[0] = array_merge(termies_result[0], existing_brands)
-                                            if skip_domain_name and domain_name != '' and len(termies_result[0]) > 1:
-                                                termies_result[0] = list(filter(lambda x: x[0]['name'].upper().find(domain_name.upper()) == -1, termies_result[0]))
-                                        attributes.append({'name':'Brand', 'options':termies_result[0], 'position':attribute_pos, 'visible':1, 'variation':1})
-                                        attribute_pos+=1
-                                    else:
-                                        brand_values = product_brand
-                                        if brand_values:
-                                            #existing_brands = re.split(',\s*', brand_values)
-                                            existing_brands = brand_values
-                                            ###count = 0
-                                            ###for brand in existing_brands:
-                                            ###    existing_brands[count] = (brand, False)
-                                            ###    count+=1
-                                            product_brand = existing_brands
-                                            attributes.append({'name':'Brand', 'options':product_brand, 'position':attribute_pos, 'visible':1, 'variation':1})
-                                            attribute_pos+=1
-                                    if termies_result[1] and skip_exist_attr_prodtitle[1] != 1:
-                                        color_values = product_colors
-                                        if color_values:
-                                            #existing_colors = re.split(',\s*', color_values)
-                                            existing_colors = color_values
-                                            ###count = 0
-                                            ###for color in existing_colors:
-                                            ###    existing_colors[count] = (color, False)
-                                            ###    count+=1
-                                            termies_result[1] = array_merge(termies_result[1], existing_colors)
-                                        attributes.append({'name':'Color', 'options':termies_result[1], 'position':attribute_pos, 'visible':1, 'variation':1})
-                                        attribute_pos+=1
-                                    else:
-                                        color_values = product_colors
-                                        if color_values:
-                                            #existing_colors = re.split(',\s*', color_values)
-                                            existing_colors = color_values
-                                            ###count = 0
-                                            ###for color in existing_colors:
-                                            ###    existing_colors[count] = (color, False)
-                                            ###    count+=1
-                                            product_colors = existing_colors
-                                            attributes.append({'name':'Color', 'options':product_colors, 'position':attribute_pos, 'visible':1, 'variation':1})
-                                            attribute_pos+=1
-                                    if termies_result[2] and skip_exist_attr_prodtitle[2] != 1:
-                                        sex_values = product_sex
-                                        if sex_values:
-                                            #existing_sex = re.split(',\s*', sex_values)
-                                            existing_sex = sex_values
-                                            ###count = 0
-                                            ###for sex in existing_sex:
-                                            ###    existing_sex[count] = (sex, False)
-                                            ###    count+=1
-                                            termies_result[2] = array_merge(termies_result[2], existing_sex)
-                                        attributes.append({'name':'Sex', 'options':termies_result[2], 'position':attribute_pos, 'visible':1, 'variation':1})
-                                        attribute_pos+=1
-                                    else:
-                                        sex_values = product_sex
-                                        #print('SEX VALUES, INPRODTITLE:')
-                                        #for sex in sex_values: print(sex)
-                                        if sex_values:
-                                            #existing_sex = re.split(',\s*', sex_values)
-                                            existing_sex = sex_values
-                                            ###count = 0
-                                            ###for sex in existing_sex:
-                                            ###    existing_sex[count] = (sex, False)
-                                            ###    count+=1
-                                            product_sex = existing_sex
-                                            attributes.append({'name':'Sex', 'options':product_sex, 'position':attribute_pos, 'visible':1, 'variation':1})
-                                            attribute_pos+=1
-                                    size_values = product_sizes
-                                    if size_values:
-                                        #existing_sizes = re.split(',\s*', size_values)
-                                        existing_sizes = size_values
-                                        product_sizes = existing_sizes
-                                        attributes.append({'name':'Size', 'options':product_sizes, 'position':attribute_pos, 'visible':1, 'variation':1})
-                                        attribute_pos+=1
-                                    sizetype_values = product_sizetypes
-                                    if sizetype_values:
-                                        #existing_sizetypes = re.split(',\s*', sizetype_values)
-                                        existing_sizetypes = sizetype_values
-                                        product_sizetypes = existing_sizetypes
-                                        attributes.append({'name':'Sizetype', 'options':product_sizetypes, 'position':attribute_pos, 'visible':1, 'variation':1})
-                                        attribute_pos+=1
-                                    sizetypemisc_values = product_sizetypemiscs
-                                    if sizetypemisc_values:
-                                        #existing_sizetypemiscs = re.split(',\s*', sizetypemisc_values)
-                                        existing_sizetypemiscs = sizetypemisc_values
-                                        product_sizetypemiscs = existing_sizetypemiscs
-                                        attributes.append({'name':'Sizetypemisc', 'options':product_sizetypemiscs, 'position':attribute_pos, 'visible':1, 'variation':1})
-                                        attribute_pos+=1
-                                    attributes_to_store = attributes
-                                    # --> Look after categories in the product title!
-                                    category_terms = jsonprodattr['product_cat']
-                                    category_result = []
-                                    for term in category_terms:
-                                        term_name = term['name']
-                                        product_name = product['name']
-                                        array_categorymaps = jsoncatmaps
-                                        if array_categorymaps:
-                                            if term_name in array_categorymaps:
-                                                infliction_array = jsoncatmaps[term_name]['catinflections'].split(',')
-                                                for infliction in infliction_array:
-                                                    if no_whitespace_prodtitleregex is True:
-                                                        regex = ''+infliction.strip()+''
-                                                    else:
-                                                        regex = '\s'+infliction.strip()+'\s'
-                                                    if re.search(regex, product_name, flags=re.IGNORECASE):
-                                                        term = doesprodattrexist(jsonprodattr['product_cat'], term['term_id'], 'product_cat')
-                                                        if term:
-                                                            if not list(filter(lambda x: x[0]['term_id'] == term['term_id'], category_result)):
-                                                                category_result.append((term, False))
-                                                        cat_parents = term['ancestors']
-                                                        for parent_id in cat_parents:
-                                                            parent = doesprodattrexist(jsonprodattr['product_cat'], parent_id, 'product_cat')
-                                                            if not list(filter(lambda x: x[0]['term_id'] == parent['term_id'], category_result)):
-                                                                category_result.append((parent, False))
-                                        if no_whitespace_prodtitleregex is True:
-                                            regex = ''+term_name.strip()+''
-                                        else:
-                                            regex = '\s'+term_name.strip()+'\s'
-                                        if re.search(regex, product_name, flags=re.IGNORECASE):
-                                            term = doesprodattrexist(jsonprodattr['product_cat'], term['term_id'], 'product_cat')
-                                            if term:
-                                                if not list(filter(lambda x: x[0]['term_id'] == term['term_id'], category_result)):
-                                                    category_result.append((term, False))
-                                            cat_parents = term['ancestors']
-                                            for parent_id in cat_parents:
-                                                parent = doesprodattrexist(jsonprodattr['product_cat'], parent_id, 'product_cat')
-                                                if not list(filter(lambda x: x[0]['term_id'] == parent['term_id'], category_result)):
-                                                    category_result.append((parent, False))
-                                    if category_result:
-                                        existing_categories = product['category_ids'].copy()
-                                        exist_cats = []
-                                        #print(json.dumps(existing_categories))
-                                        if existing_categories and skip_exist_attr_prodtitle[3] != 1:
-                                            #count = 0
-                                            for cat in existing_categories.copy():
-                                                term = doesprodattrexist(jsonprodattr['product_cat'], cat, 'product_cat')
-                                                #print(json.dumps(term))
-                                                #print(cat)
-                                                if (term['slug'] == 'uncategorized' and len(category_result) > 0)\
-                                                or list(filter(lambda x: x[0]['term_id'] == term['term_id'], category_result)):
-                                                    #del existing_categories[count]
-                                                    continue
-                                                #existing_categories[count] = ((term, False))
-                                                exist_cats.append((term, False))
-                                                #count+=1 
-                                            category_result = array_merge(category_result, exist_cats)
-                                        #print('PRODCATSFINAL_PRODTITLE: ' + json.dumps(product_categories))
-                                        #print('CATRESULTS_PRODTITLE: ' + json.dumps(category_result))
-                                        if product_categories != '':
-                                            #product_categories = array_merge(product_categories, category_result)
-                                            for result in category_result:
-                                                if not list(filter(lambda x: x[0]['term_id'] == result[0]['term_id'], product_categories)):
-                                                    product_categories.append(result)
-                                        else:
-                                            product_categories = category_result
-                                    catstoaddresult = product_categories
-                                except:
-                                    #print("Error when looking after prod. properties in title for product ID " + product['productid'] + ": " + sys.exc_info()[0] + " occured!")
                                     print(traceback.format_exc())
                             # >>> MAKE PRICES NUMERIC <<< #
                             price = getmoneyfromtext(price)
