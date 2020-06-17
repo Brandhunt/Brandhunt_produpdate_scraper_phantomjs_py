@@ -466,7 +466,7 @@ def mainfunc(maxlimit):
                                     #print('PRICEBEFORECONVERSION:' + price)
                                     #print('PRICE ELEMENTS:')
                                     #for p in price_elements: print p
-                                    if not re.match('[0-9]', price): price = ''
+                                    #if not re.match('[0-9]', price): price = ''
                                     price = converttocorrectprice(price, website['currencysymbol'], headers)
                                 else:
                                     price = price.replace(r'[^0-9,.]', '')
@@ -500,7 +500,7 @@ def mainfunc(maxlimit):
                                             salesprice = re.sub('\\' + website['pricedelimitertoignore'].strip() + '', '', salesprice)    
 
                                     if website['currencysymbol']:
-                                        if not re.match('[0-9]', salesprice): salesprice = ''
+                                        #if not re.match('[0-9]', salesprice): salesprice = ''
                                         salesprice = converttocorrectprice(salesprice, website['currencysymbol'], headers)
                                     else:
                                         salesprice = salesprice.replace(r'[^0-9,.]', '')
@@ -742,7 +742,7 @@ def mainfunc(maxlimit):
                                             newprice = price + productmisc_array[i].strip()
                                             if website['currencysymbol']:
                                                 newprice.upper()
-                                                if not re.match('[0-9]', newprice): newprice = ''
+                                                #if not re.match('[0-9]', newprice): newprice = ''
                                                 newprice = converttocorrectprice(newprice, website['currencysymbol'], headers)
                                             else:
                                                 newprice = newprice.replace(r'[^0-9,.]', '')
@@ -753,7 +753,7 @@ def mainfunc(maxlimit):
                                                 newprice = salesprice + productmisc_array[i].strip()
                                                 if website['currencysymbol']:
                                                     newprice.upper()
-                                                    if not re.match('[0-9]', newprice): newprice = ''
+                                                    #if not re.match('[0-9]', newprice): newprice = ''
                                                     newprice = converttocorrectprice(newprice, website['currencysymbol'], headers)
                                                 else:
                                                     newprice = newprice.replace(r'[^0-9,.]', '')
@@ -841,7 +841,7 @@ def mainfunc(maxlimit):
                                                                     newprice = re.sub('\\' + delim.strip() + '', '', newprice)
                                                             else:
                                                                 newprice = re.sub('\\' + website['pricedelimitertoignore'].strip() + '', '', newprice) 
-                                                        if not re.match('[0-9]', newprice): newprice = ''
+                                                        #if not re.match('[0-9]', newprice): newprice = ''
                                                         newprice = converttocorrectprice(newprice, website['currencysymbol'], headers)
                                                     else:
                                                         newprice = newprice.replace(r'[^0-9,.]', '')
@@ -1807,8 +1807,8 @@ def mainfunc(maxlimit):
                                     #print("Error when scraping misc. product information for product ID " + product['productid'] + ": " + sys.exc_info()[0] + " occured!")
                                     print(traceback.format_exc())
                             # >>> MAKE PRICES NUMERIC <<< #
-                            if not re.match('[0-9]', price): price = ''
-                            if not re.match('[0-9]', salesprice): salesprice = ''
+                            #if not re.match('[0-9]', price): price = ''
+                            #if not re.match('[0-9]', salesprice): salesprice = ''
                             price = getmoneyfromtext(price)
                             salesprice = getmoneyfromtext(salesprice)
                             # >>> STORE PRODUCT VALUES IN MORPH.IO DATABASE <<< #
