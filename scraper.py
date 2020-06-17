@@ -673,6 +673,7 @@ def mainfunc(maxlimit):
                             mandatory_sizes = [[['ONE SIZE'], 'Accessories']]
                             no_whitespace_htmlregex = False
                             no_whitespace_prodtitleregex = False
+                            whitespace_htmlregex_sides = 0 # <==> 0 = Whitespaces on both sides, 1 = Whitespace on left side, 2 = Right side
                             apply_finalsize_as_size = False
                             # --> Define misc. storage variables
                             domain_name = ''
@@ -706,6 +707,11 @@ def mainfunc(maxlimit):
                                         # --- No leading/trailing whitespaces when using regex while searching pure HTML for attributes? --- #
                                         if productmisc_array[(i-1)] == 'no_whitespace_htmlregex':
                                             no_whitespace_htmlregex = True
+                                        # --- Should whitespace in HTML regex attribute search be applied on a specific side? --- #
+                                        if productmisc_array[(i-1)] == 'whitespace_htmlregex_sides':
+                                            if productmisc_array[i] != 'true':
+                                                whitespace_htmlregex_sides = int(productmisc_array[i])
+                                                productmisc_array[i] = 'true'
                                         # --- Are the sizes belonging to the current product of a a specific misc. size type? --- #
                                         if productmisc_array[(i-1)] == 'sizetypemisc':
                                             sizetypemisc = productmisc_array[i]
