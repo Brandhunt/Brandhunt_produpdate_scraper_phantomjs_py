@@ -1561,6 +1561,10 @@ def mainfunc(maxlimit):
                                                         for sizetomap in split_sizetomaps.copy():
                                                             found_sizenames = list(filter(lambda x: x[0]['name'].strip().lower() == sizetomap.strip().lower(), product_sizes))
                                                             if found_sizenames:
+                                                                #for size_to_remove in sizemap['sizestomap'].split(','):
+                                                                for size_to_remove in split_sizetomaps:
+                                                                    size_to_remove = size_to_remove.strip().lower()
+                                                                    product_sizes = list(filter(lambda x: x[0]['name'].strip().lower() != size_to_remove, product_sizes))
                                                                 enforce_mandatory_sizes = False
                                                                 finalterm = doesprodattrexist(jsonprodattr['pa_size'], sizemap['finalsize'].strip(), 'pa_size')
                                                                 if finalterm != 0:
@@ -1570,10 +1574,6 @@ def mainfunc(maxlimit):
                                                                     finalsizeslug = slugify(finalsizename.strip())
                                                                     new_finalterm = {'term_id':-1, 'name':finalsizename, 'slug':finalsizeslug, 'taxonomy':'pa_size'}
                                                                     product_sizes.append((new_finalterm, True))
-                                                                #for size_to_remove in sizemap['sizestomap'].split(','):
-                                                                for size_to_remove in split_sizetomaps:
-                                                                    size_to_remove = size_to_remove.strip().lower()
-                                                                    product_sizes = list(filter(lambda x: x[0]['name'].strip().lower() != size_to_remove, product_sizes))
                                                                 #print(json.dumps(product_sizes))
                                                                 break
                                                         # --> Do we need to add any mandatory sizes depending on sizetype?
