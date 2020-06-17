@@ -1133,6 +1133,8 @@ def mainfunc(maxlimit):
                                                     array_categorymaps = jsoncatmaps
                                                     #print(type(cat_html))
                                                     #print(type(term_name))
+                                                    leftside = '\s' if whitespace_htmlregex_sides != 2 else ''
+                                                    rightside = '\s' if whitespace_htmlregex_sides != 1 else ''
                                                     if array_categorymaps:
                                                         #if hasattr(array_categorymaps, term_name):
                                                         if term_name in array_categorymaps:
@@ -1145,7 +1147,7 @@ def mainfunc(maxlimit):
                                                                 if no_whitespace_htmlregex is True:
                                                                     regex = ''+infliction.strip()+''
                                                                 else:
-                                                                    regex = '\s'+infliction.strip()+'\s'
+                                                                    regex = leftside+infliction.strip()+rightside
                                                                 #print('INF_REGEX: ' + regex)
                                                                 if re.search(regex, cat_html, flags=re.IGNORECASE):
                                                                     #print('FOUND INFLICTION!')
@@ -1164,7 +1166,7 @@ def mainfunc(maxlimit):
                                                     if no_whitespace_htmlregex is True:
                                                         regex = ''+term_name.strip()+''
                                                     else:
-                                                        regex = '\s'+term_name.strip()+'\s'
+                                                        regex = leftside+term_name.strip()+rightside
                                                     #print('CATTERM_REGEX: ' + regex)
                                                     if re.search(regex, cat_html, flags=re.IGNORECASE):
                                                         #print('FOUND CATTERM!')
@@ -1291,6 +1293,8 @@ def mainfunc(maxlimit):
                                                 term_name = term['name']
                                                 product_name = product['name']
                                                 array_categorymaps = jsoncatmaps
+                                                leftside = '\s' if whitespace_prodtitleregex_sides != 2 else ''
+                                                rightside = '\s' if whitespace_prodtitleregex_sides != 1 else ''
                                                 if array_categorymaps:
                                                     if term_name in array_categorymaps:
                                                         infliction_array = jsoncatmaps[term_name]['catinflections'].split(',')
@@ -1298,7 +1302,7 @@ def mainfunc(maxlimit):
                                                             if no_whitespace_prodtitleregex is True:
                                                                 regex = ''+infliction.strip()+''
                                                             else:
-                                                                regex = '\s'+infliction.strip()+'\s'
+                                                                regex = leftside+infliction.strip()+rightside
                                                             if re.search(regex, product_name, flags=re.IGNORECASE):
                                                                 term = doesprodattrexist(jsonprodattr['product_cat'], term['term_id'], 'product_cat')
                                                                 if term:
@@ -1312,7 +1316,7 @@ def mainfunc(maxlimit):
                                                 if no_whitespace_prodtitleregex is True:
                                                     regex = ''+term_name.strip()+''
                                                 else:
-                                                    regex = '\s'+term_name.strip()+'\s'
+                                                    regex = leftside+term_name.strip()+rightside
                                                 if re.search(regex, product_name, flags=re.IGNORECASE):
                                                     term = doesprodattrexist(jsonprodattr['product_cat'], term['term_id'], 'product_cat')
                                                     if term:
