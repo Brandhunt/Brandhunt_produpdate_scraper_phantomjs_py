@@ -1213,13 +1213,13 @@ def mainfunc(maxlimit):
                                                                         clean_cat = slugify(cat_add_name.strip())
                                                                         term = doesprodattrexist(jsonprodattr['product_cat'], cat_add_name, 'product_cat')
                                                                         if term:
-                                                                            if not list(filter(lambda x: x[0]['term_id'] == term['term_id'], category_array)):
+                                                                            if not list(filter(lambda x: x[0]['term_id'] == term['term_id'], product_categories)):
                                                                                 product_categories.append((term, False))
                                                                                 cat_parents = term['ancestors']
                                                                                 for parent_id in cat_parents:
                                                                                     parent = doesprodattrexist(jsonprodattr['product_cat'], parent_id, 'product_cat')
-                                                                                    if not list(filter(lambda x: x[0]['term_id'] == parent['term_id'], category_array)):
-                                                                                        category_array.append((parent, False))
+                                                                                    if not list(filter(lambda x: x[0]['term_id'] == parent['term_id'], product_categories)):
+                                                                                        product_categories.append((parent, False))
                                                                         else:
                                                                             term = {'term_id':-1, 'name':cat_add_name, 'slug':clean_cat, 'taxonomy':'product_cat'}
                                                                             product_categories.append((term, True))
