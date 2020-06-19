@@ -1201,12 +1201,12 @@ def mainfunc(maxlimit):
                                                             if product_categories == "":
                                                                 product_categories = []
                                                             if re.search('{remove_category}', fix[1], flags=re.IGNORECASE):
-                                                                print('HERE!')
+                                                                #print('HERE!')
                                                                 cats_to_remove = re.sub('\{remove_category\}', '', fix[1]).split(',')
                                                                 for cat_remove in cats_to_remove:
-                                                                    product_categories = list(filter(lambda x: re.search(cat_remove, x[0]['name'],\
+                                                                    product_categories = list(filter(lambda x: not re.search(cat_remove, x[0]['name'],\
                                                                                                                          flags=re.IGNORECASE), product_categories))
-                                                                print(json.dumps(product_categories))
+                                                                #print(json.dumps(product_categories))
                                                             if re.search('{add_category}', fix[1], flags=re.IGNORECASE):
                                                                 cats_to_add = re.sub('\{add_category\}', '', fix[1]).split(',')
                                                                 for cat_add in cats_to_add:
