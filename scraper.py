@@ -1204,8 +1204,16 @@ def mainfunc(maxlimit):
                                                                 #print('HERE!')
                                                                 cats_to_remove = re.sub('\{remove_category\}', '', fix[1]).split(',')
                                                                 for cat_remove in cats_to_remove:
-                                                                    product_categories = list(filter(lambda x: not re.search(cat_remove, x[0]['name'],\
-                                                                                                                         flags=re.IGNORECASE), product_categories))
+                                                                    cat_remove_name = cat_remove.strip()
+                                                                    product_categories = list(filter(lambda x: not re.search(cat_remove_name, x[0]['name'],\
+                                                                                                                            flags=re.IGNORECASE), product_categories))
+                                                                    term = doesprodattrexist(jsonprodattr['product_cat'], cat_remove_name, 'product_cat')
+                                                                    if term:
+                                                                        cat_parents = term['ancestors']
+                                                                        for parent_id in cat_parents:
+                                                                            parent = doesprodattrexist(jsonprodattr['product_cat'], parent_id, 'product_cat')
+                                                                            product_categories = list(filter(lambda x: not re.search(parent[0]['name'], x[0]['name'],\
+                                                                                                                            flags=re.IGNORECASE), product_categories))
                                                                 #print(json.dumps(product_categories))
                                                             if re.search('{add_category}', fix[1], flags=re.IGNORECASE):
                                                                 cats_to_add = re.sub('\{add_category\}', '', fix[1]).split(',')
