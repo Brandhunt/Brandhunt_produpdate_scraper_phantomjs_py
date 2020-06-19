@@ -1198,6 +1198,8 @@ def mainfunc(maxlimit):
                                                     cat_html = str(productmisc_array[i])
                                                     for fix in cat_prodfix_regex_list:
                                                         if re.search(fix[0], cat_html, flags=re.IGNORECASE):
+                                                            if product_categories == "":
+                                                                product_categories = []
                                                             if re.search('{remove_category}', fix[1], flags=re.IGNORECASE):
                                                                 cats_to_remove = re.sub('\{remove_category\}', '', fix[1]).split(',')
                                                                 for cat_remove in cats_to_remove:
